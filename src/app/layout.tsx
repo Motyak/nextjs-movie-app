@@ -1,28 +1,32 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from "next"
+import "./globals.css"
+import { archivo400, archivoNarrow700 } from "@/fonts"
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
+const Logo = () => <span className={`${archivoNarrow700.className}`}>MOVIENIGHT</span>
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
+const SearchBar = () => <span className={`${archivo400.className}`}>Rechercher un film, un réalisateur, un acteur</span>
+
+const TopBar = () => {
+    return (
+        <div className="flex">
+            <div className="flex-none"><Logo /></div>
+            <div className="flex-initial"><SearchBar /></div>
+        </div>
+    )
+}
 
 export const metadata: Metadata = {
     title: "Movienight",
-    description: "Movienight is a database for movies and TV shows.",
-};
+    description: "Movienight is a database for movies.",
+}
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
     return (
         <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <body className="flex flex-col">
+                <TopBar />
                 {children}
             </body>
         </html>
-    );
+    )
 }
