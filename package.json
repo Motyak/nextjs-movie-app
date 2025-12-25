@@ -9,9 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "baseui": "^0.0.0-next-fa3470ef4",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "styletron-engine-monolithic": "^1.0.0",
+    "styletron-react": "^6.1.1",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
