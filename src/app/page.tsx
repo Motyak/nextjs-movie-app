@@ -1,6 +1,30 @@
+import FilmCard from "./FilmCard"
+import HorizontalCarousel from "./HorizontalCarousel"
+
+
 const TrendingHero = () => {
     return (
-        <div className="border-y border-red-500 border-dotted">TrendingHero</div>
+        <div className="border-y border-red-500 border-dotted">
+            <HorizontalCarousel>
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                <FilmCard />
+                
+                <FilmCard />
+            </HorizontalCarousel>
+        </div>
     )
 }
 
@@ -18,10 +42,18 @@ const TopRated = () => {
 
 export default function Home() {
     return (
-        <div className="flex flex-col">
-            <TrendingHero />
-            <NowPlaying />
-            <TopRated />
+        <div className="flex justify-center">
+            <div className="flex flex-col w-5/6 2xl:w-3/5">
+                <TrendingHero />
+                <NowPlaying />
+                <TopRated />
+            </div>
         </div>
+
+        // <div className="flex flex-col">
+        //     <TrendingHero />
+        //     <NowPlaying />
+        //     <TopRated />
+        // </div>
     )
 }

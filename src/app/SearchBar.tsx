@@ -1,8 +1,8 @@
 "use client"
 
 import { Input } from "baseui/input"
-import { Button, SHAPE, KIND, SIZE } from "baseui/button";
-import { archivo400 } from "@/fonts";
+import { Button, SHAPE, KIND, SIZE } from "baseui/button"
+import { archivo400 } from "@/fonts"
 import useStore from "@/store"
 
 const Magnifier = () => {
@@ -37,5 +37,5 @@ export default function SearchBar() {
                 }}
             />
         </div>
-    );
+    )
 }
