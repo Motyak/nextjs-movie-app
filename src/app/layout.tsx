@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { archivo400, archivoNarrow700 } from "@/fonts"
+import { archivoNarrow700 } from "@/fonts"
+
+import RootStyletron from "./RootStyletron"
+import SearchBar from "./SearchBar"
 
 const Logo = () => <span className={`${archivoNarrow700.className}`}>MOVIENIGHT</span>
-
-const SearchBar = () => <span className={`${archivo400.className}`}>Rechercher un film, un réalisateur, un acteur</span>
 
 const TopBar = () => {
     return (
@@ -24,8 +25,10 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
     return (
         <html lang="en">
             <body className="flex flex-col">
-                <TopBar />
-                {children}
+                <RootStyletron>
+                    <TopBar />
+                    {children}
+                </RootStyletron>
             </body>
         </html>
     )
