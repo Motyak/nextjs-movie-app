@@ -1,7 +1,27 @@
+const TrendingHero = () => {
+    return (
+        <div className="border-y border-red-500 border-dotted">TrendingHero</div>
+    )
+}
+
+const NowPlaying = () => {
+    return (
+        <div className="border-y border-green-500 border-dotted">NowPlaying</div>
+    )
+}
+
+const TopRated = () => {
+    return (
+        <div className="border-y border-blue-500 border-dotted">TopRated</div>
+    )
+}
+
 export default function Home() {
     return (
         <div className="flex flex-col">
-            <div className="border border-red-500 border-dotted">Home</div>
+            <TrendingHero />
+            <NowPlaying />
+            <TopRated />
         </div>
     )
 }

@@ -2,11 +2,11 @@
 import { create } from "zustand"
 
 type StoreState = {
-    searchValue: string;
-    setSearchValue: (newValue: string) => void;
+    searchValue: string
+    setSearchValue: (newValue: string) => void
 
-    // anotherValue: string;
-    // setAnotherValue: (newValue: string) => void;
+    // anotherValue: string
+    // setAnotherValue: (newValue: string) => void
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -15,6 +15,6 @@ const useStore = create<StoreState>((set) => ({
 
     // anotherValue: "",
     // setAnotherValue: (newValue: string) => set({ anotherValue: newValue }),
-}));
+}))
 
-export default useStore;
+export default useStore
