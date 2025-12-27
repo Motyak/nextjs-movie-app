@@ -69,7 +69,7 @@ const TopRated = () => {
 
 export default function Home() {
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-6">
             <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">
                 <TrendingHero />
                 <NowPlaying />
