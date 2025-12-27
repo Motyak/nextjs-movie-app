@@ -23,6 +23,35 @@ const NowPlaying = () => {
                     <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
                     <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
                     
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                </HorizontalCarousel>
+            </div>
+        </div>
+    )
+}
+
+const TopRated = () => {
+    return (
+        <div className="flex flex-col     border-y border-blue-500 border-dotted">
+            <h2 className={`${inter400.className} text-xl`}>Les films les mieux notés</h2>
+            <div className="pt-4">
+                <HorizontalCarousel>
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    
                     <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
                     <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
                     <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
@@ -38,26 +67,14 @@ const NowPlaying = () => {
     )
 }
 
-const TopRated = () => {
-    return (
-        <div className="border-y border-blue-500 border-dotted">TopRated</div>
-    )
-}
-
 export default function Home() {
     return (
         <div className="flex justify-center">
-            <div className="flex flex-col w-5/6 2xl:w-3/5">
+            <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">
                 <TrendingHero />
                 <NowPlaying />
                 <TopRated />
             </div>
         </div>
-
-        // <div className="flex flex-col">
-        //     <TrendingHero />
-        //     <NowPlaying />
-        //     <TopRated />
-        // </div>
     )
 }
