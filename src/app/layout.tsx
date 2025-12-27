@@ -1,15 +1,9 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { archivoNarrow700 } from "@/fonts"
 
 import RootStyletron from "./RootStyletron"
+import Logo from "./Logo"
 import SearchBar from "./SearchBar"
-
-const Logo = () => {
-    return (
-        <span className={`${archivoNarrow700.className} text-4xl select-none`}>MOVIENIGHT</span>
-    )
-}
 
 const TopBar = () => {
     return (
