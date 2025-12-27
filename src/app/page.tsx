@@ -1,36 +1,40 @@
+import { inter400 } from "@/fonts"
 import FilmCard from "./FilmCard"
 import HorizontalCarousel from "./HorizontalCarousel"
 
 
 const TrendingHero = () => {
     return (
-        <div className="border-y border-red-500 border-dotted">
-            <HorizontalCarousel>
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                <FilmCard />
-                
-                <FilmCard />
-            </HorizontalCarousel>
-        </div>
+        <div className="border-y border-green-500 border-dotted">NowPlaying</div>
     )
 }
 
 const NowPlaying = () => {
     return (
-        <div className="border-y border-green-500 border-dotted">NowPlaying</div>
+        <div className="flex flex-col     border-y border-red-500 border-dotted">
+            <h2 className={`${inter400.className} text-xl`}>À l'affiche cette semaine</h2>
+            <div className="pt-4">
+                <HorizontalCarousel>
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    <FilmCard />
+                    
+                    <FilmCard />
+                </HorizontalCarousel>
+            </div>
+        </div>
     )
 }
 
