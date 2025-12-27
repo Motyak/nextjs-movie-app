@@ -1,4 +1,4 @@
-import FilmCard from "../FilmCard"
+import MovieCard from "../MovieCard"
 import { archivo400, archivoBlack400 } from "@/fonts"
 import { SearchParams, getSearchParam } from "@/utils/searchparams"
 
@@ -33,34 +33,34 @@ export default async function Results({searchParams}: {searchParams: SearchParam
             <div className="flex flex-col w-full 2xl:w-3/4 px-4 gap-10">
                 <ResultsFound searchQuery={searchQuery} nbOfResults={54} />
                 <ResultGrid>
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" id={123} />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
                 </ResultGrid>
             </div>
         </div>
