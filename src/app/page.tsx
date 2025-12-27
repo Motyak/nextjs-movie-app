@@ -15,23 +15,23 @@ const NowPlaying = () => {
             <h2 className={`${inter400.className} text-xl`}>À l'affiche cette semaine</h2>
             <div className="pt-4">
                 <HorizontalCarousel>
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
                     
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
-                    <FilmCard />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
                     
-                    <FilmCard />
+                    <FilmCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
                 </HorizontalCarousel>
             </div>
         </div>
