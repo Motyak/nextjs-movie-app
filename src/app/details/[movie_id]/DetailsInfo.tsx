@@ -77,6 +77,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                         </div>
                         }
                     </div>
+
                 </div>
             </div>
             <Image
