@@ -41,9 +41,41 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                         </div>
 
                     </div>
+
+                    {/* synopsis */}
                     <div className="pt-4">
                         <h3 className={`${archivo600.className}`}>Synopsys</h3>
                         <p className={`${archivo400.className}`}>{movieInfo?.synopsis ?? ""}</p>
+                    </div>
+
+                    {/* crew */}
+                    <div className="flex w-full">
+                        {movieInfo?.crew[0] === undefined ? <></> : 
+                            <div className="flex flex-col w-1/2">
+                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[0].role}</h3>
+                                <p className={`${archivo400.className}`}>{movieInfo?.crew[0].name}</p>
+                            </div>
+                        }
+                        {movieInfo?.crew[1] === undefined ? <></> : 
+                            <div className="flex flex-col">
+                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[1].role}</h3>
+                            <p className={`${archivo400.className}`}>{movieInfo?.crew[1].name}</p>
+                        </div>
+                        }
+                    </div>
+                    <div className="flex w-full">
+                        {movieInfo?.crew[2] === undefined ? <></> : 
+                            <div className="flex flex-col w-1/2">
+                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[2].role}</h3>
+                                <p className={`${archivo400.className}`}>{movieInfo?.crew[2].name}</p>
+                            </div>
+                        }
+                        {movieInfo?.crew[3] === undefined ? <></> : 
+                            <div className="flex flex-col">
+                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[3].role}</h3>
+                            <p className={`${archivo400.className}`}>{movieInfo?.crew[3].name}</p>
+                        </div>
+                        }
                     </div>
                 </div>
             </div>

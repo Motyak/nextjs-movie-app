@@ -31,6 +31,12 @@ const useStore = create<StoreState>((set, get) => ({
             poster: "/sonic_big.png",
             videos: [],
 
+            crew: [
+                {name: "Josh Miller", role: "Screenplay, Story"},
+                {name: "Jeff Fowler", role: "Director"},
+                {name: "Patrick Casey", role: "Screenplay, Story"},
+                {name: "John Whittington", role: "Screenplay"},
+            ],
             casting: [],
         }
     },

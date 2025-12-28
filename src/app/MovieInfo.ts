@@ -11,6 +11,11 @@ type MovieInfo = {
     poster: string
     videos: string[]
 
+    crew: {
+        name: string,
+        role: string,
+    }[],
+
     casting: {
         photo: string
         name: string
