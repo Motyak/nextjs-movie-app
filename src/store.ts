@@ -63,6 +63,7 @@ const useStore = create<StoreState>((set, get) => ({
         return state.moviesInfo[id]
     },
     setMovieInfo: (id: number, newValue: MovieInfo) => set((state) => ({
+        ...state,
         moviesInfo: {...state.moviesInfo, [id]: newValue}
     })),
 

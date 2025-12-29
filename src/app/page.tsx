@@ -14,18 +14,19 @@ const TrendingHero = () => {
 
 const NowPlaying = () => {
     let {nowPlaying, getMovieInfo} = useStore()
-    let nowPlayingList = nowPlaying?.map(getMovieInfo)
+    let nowPlayingTable = nowPlaying?.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
         <div className="flex flex-col     border-y border-red-500 border-dotted">
             <h2 className={`${inter400.className} text-xl`}>À l'affiche cette semaine</h2>
             <div className="pt-4">
                 <HorizontalCarousel>
-                    {nowPlayingList?.map(x => {
-                        let src = x?.poster === undefined ? "" : `/api/image/w154/${x.poster}`
-                        let name = x?.title === undefined ? "" : x.title
-                        let duration = x?.runtime === undefined ? "" : `${Math.floor(x.runtime / 60)}h${x.runtime % 60}`
-                        return <MovieCard src={src} name={name} duration={duration} />
+                    {nowPlayingTable?.map(x => {
+                        let {id, movieInfo} = x
+                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
+                        let name = movieInfo?.title === undefined ? "" : movieInfo.title
+                        let duration = movieInfo?.runtime === undefined ? "" : `${Math.floor(movieInfo.runtime / 60)}h${movieInfo.runtime % 60}`
+                        return <MovieCard src={src} name={name} duration={duration} id={id} />
                     })}
                 </HorizontalCarousel>
             </div>
@@ -78,7 +79,7 @@ export default function Home() {
             })
         }
         storeData()
-    }, [])
+    }, [nowPlaying])
 
     return (
         <div className="flex justify-center pt-6">

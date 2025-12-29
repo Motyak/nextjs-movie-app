@@ -5,10 +5,27 @@ import Image from "next/image"
 import useStore from "@/store"
 import { archivo400, archivo600, archivoBlack400 } from "@/fonts"
 import RatingBar from "@/app/RatingBar"
+import { useEffect } from "react"
 
 export default function DetailsInfo({movie_id}: {movie_id: number}) {
-    let {getMovieInfo} = useStore()
+    let {moviesInfo, getMovieInfo, setMovieInfo} = useStore()
+
+    useEffect(() => {
+        if (getMovieInfo(movie_id) !== undefined) {
+            return // nothing to do
+        }
+        const storeData = async () => {
+            await fetch(`/api/details/${movie_id}`).then(x => x.json()).then(movieInfo => {
+                setMovieInfo(movie_id, movieInfo)
+            })
+        }
+        storeData()
+    }, [moviesInfo])
+
     let movieInfo = getMovieInfo(movie_id)
+    if (movieInfo === undefined) {
+        return
+    }
 
     return (
         <div className="flex">
@@ -82,7 +99,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                 </div>
             </div>
             <Image
-                src={movieInfo?.poster ?? ""}
+                src={`/api/image/w500/${movieInfo?.poster ?? ""}`}
                 width={436}
                 height={654}
                 alt="poster"
