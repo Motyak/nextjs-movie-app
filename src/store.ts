@@ -2,6 +2,11 @@
 import { create } from "zustand"
 import MovieInfo from "./app/MovieInfo"
 
+export type SearchResult = {
+    nbOfResults: number
+    results: {[id: number]: MovieInfo}
+}
+
 type StoreState = {
     searchValue: string
     setSearchValue: (newValue: string) => void
@@ -18,6 +23,10 @@ type StoreState = {
     moviesInfo: {[id: number]: MovieInfo}
     getMovieInfo: (id: number) => MovieInfo | undefined
     setMovieInfo: (id: number, movieInfo: MovieInfo) => void
+
+    searchResults: {[searchQuery: string]: SearchResult}
+    getSearchResult: (searchQuery: string) => SearchResult | undefined
+    setSearchResult: (searchQuery: string, searchResult: SearchResult) => void
 
     // anotherValue: string
     // setAnotherValue: (newValue: string) => void
@@ -64,6 +73,17 @@ const useStore = create<StoreState>((set, get) => ({
     },
     setMovieInfo: (id: number, newValue: MovieInfo) => set((state) => ({
         moviesInfo: {...state.moviesInfo, [id]: newValue}
+    })),
+
+    searchResults: {
+        // "": {nbOfResults: 0, results: {}} // cache empty search query
+    },
+    getSearchResult: (searchQuery: string) => {
+        const state = get()
+        return state.searchResults[searchQuery]
+    },
+    setSearchResult: (searchQuery: string, newValue: SearchResult) => set((state) => ({
+        searchResults: {...state.searchResults, [searchQuery]: newValue}
     })),
 
     // anotherValue: "",

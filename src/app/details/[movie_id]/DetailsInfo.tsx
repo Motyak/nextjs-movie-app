@@ -15,9 +15,9 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
             return // nothing to do
         }
         const storeData = async () => {
-            await fetch(`/api/details/${movie_id}`).then(x => x.json()).then(movieInfo => {
-                setMovieInfo(movie_id, movieInfo)
-            })
+            await fetch(`/api/details/${movie_id}`)
+                .then(x => x.json())
+                .then(movieInfo => setMovieInfo(movie_id, movieInfo))
         }
         storeData()
     }, [moviesInfo])

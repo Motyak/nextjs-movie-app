@@ -2,7 +2,6 @@
 
 import { inter400 } from "@/fonts"
 import useStore from "@/store"
-import Image from "next/image"
 
 export default function DetailsVideo({movie_id}: {movie_id: number}) {
     let {getMovieInfo} = useStore()
