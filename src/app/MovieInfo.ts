@@ -4,22 +4,22 @@ type MovieInfo = {
     title: string
     releaseYear: number
     runtime: number
-    rating: number
+    rating: number // between 0 and 1
     genres: string[]
     synopsis: string
 
-    poster: string
-    videos: string[]
+    poster: string // e.g.: 8nytsqL59SFJTVYVrN72k6qkGgJ.jpg
+    videos: string[] // YouTube keys, e.g.: tZpXdiB_pg0
 
     crew: {
         name: string,
-        role: string,
+        job: string,
     }[],
 
     casting: {
-        photo: string
         name: string
         character: string
+        photo: string // e.g.: 8nytsqL59SFJTVYVrN72k6qkGgJ.jpg
     }[],
 }
 
