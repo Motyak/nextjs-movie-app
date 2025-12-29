@@ -1,5 +1,6 @@
 import { getBearerToken } from "@/conf/token";
 import MovieInfo from "@/app/MovieInfo";
+import getDetails from "@/app/api/getDetails";
 
 // YYYY/MM/DD
 const formatDate = (date: Date): string => {
@@ -15,10 +16,6 @@ const getWeekExtremum = (): string[] => {
     let weekStart = new Date(today); weekStart.setDate(today.getDate() - dayOfTheWeek)
     let weekEnd = new Date(today); weekEnd.setDate(today.getDate() + (6 - dayOfTheWeek))
     return [weekStart, weekEnd].map(formatDate)
-}
-
-const getDetails = (movieId: number): Promise<MovieInfo> => {
-    return fetch(`/api/details/${movieId}`).then(x => x.json())
 }
 
 export async function GET(req: Request) {
@@ -43,11 +40,8 @@ export async function GET(req: Request) {
             },
         })
         
-        nowPlaying = req.then(async res => {
-            let movieIds: number[] = (await res.json())
-                .results
-                .slice(0, 10)
-                .map((x: {id: number}) => x.id)
+        nowPlaying = req.then(res => res.json()).then(obj => {
+            let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
             return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
                 let table: {[movieId: number]: MovieInfo} = {}
                 movieIds.forEach((id, index) => table[id] = movieInfos[index]);
