@@ -1,4 +1,4 @@
-import MovieCard from "../MovieCard"
+import MovieCard from "@/app/MovieCard"
 import { archivo400, archivoBlack400 } from "@/fonts"
 import { SearchParams, getSearchParam } from "@/utils/searchparams"
 

@@ -23,7 +23,7 @@ const getDetails = (movieId: number): Promise<MovieInfo> => {
 
 export async function GET(req: Request) {
     let trending: Promise<MovieInfo[]>
-    let nowPlaying: Promise<MovieInfo[]>
+    let nowPlaying: Promise<{[movieId: number]: MovieInfo}>
     let topRated: Promise<MovieInfo[]>
 
     /* now playing movies */
@@ -44,11 +44,15 @@ export async function GET(req: Request) {
         })
         
         nowPlaying = req.then(async res => {
-            let movieIds = (await res.json())
+            let movieIds: number[] = (await res.json())
                 .results
                 .slice(0, 10)
                 .map((x: {id: number}) => x.id)
-            return Promise.all(movieIds.map(getDetails))
+            return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
+                let table: {[movieId: number]: MovieInfo} = {}
+                movieIds.forEach((id, index) => table[id] = movieInfos[index]);
+                return table
+            })
         })
     }
     

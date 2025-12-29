@@ -19,7 +19,7 @@ type MovieInfo = {
     casting: {
         name: string
         character: string
-        photo: string // e.g.: 8nytsqL59SFJTVYVrN72k6qkGgJ.jpg
+        photo: string | null // e.g.: 8nytsqL59SFJTVYVrN72k6qkGgJ.jpg
     }[],
 }
 

@@ -28,7 +28,11 @@ export async function GET(req: Request, {params}: {params: Promise<{movie_id: st
         videos: detailsObj.videos.results.map((x: any) => x.key),
 
         crew: detailsObj.credits.crew.slice(0, 4).map((x: any) => ({name: x.name, job: x.job})),
-        casting: detailsObj.credits.cast.slice(0, 20).map((x: any) => ({name: x.name, character: x.character, photo: x.profile_path.slice(1)}))
+        casting: detailsObj.credits.cast.slice(0, 20).map((x: any) => ({
+            name: x.name,
+            character: x.character,
+            photo: x.profile_path ? x.profile_path.slice(1) : null
+        })),
     }
 
     return new Response(JSON.stringify(movieInfo))
