@@ -6,6 +6,15 @@ type StoreState = {
     searchValue: string
     setSearchValue: (newValue: string) => void
 
+    trending?: number[] | undefined
+    setTrending: (newValue: number[]) => void
+
+    nowPlaying?: number[] | undefined
+    setNowPlaying: (newValue: number[]) => void
+
+    topRated?: number[] | undefined
+    setTopRated: (newValue: number[]) => void
+
     moviesInfo: {[id: number]: MovieInfo}
     getMovieInfo: (id: number) => MovieInfo | undefined
     setMovieInfo: (id: number, movieInfo: MovieInfo) => void
@@ -17,6 +26,15 @@ type StoreState = {
 const useStore = create<StoreState>((set, get) => ({
     searchValue: "",
     setSearchValue: (newValue: string) => set({searchValue: newValue}),
+
+    trending: undefined,
+    setTrending: (newValue: number[]) => set({trending: newValue}),
+
+    nowPlaying: undefined,
+    setNowPlaying: (newValue: number[]) => set({nowPlaying: newValue}),
+
+    topRated: undefined,
+    setTopRated: (newValue: number[]) => set({topRated: newValue}),
 
     moviesInfo: {
         // tmp
@@ -32,10 +50,10 @@ const useStore = create<StoreState>((set, get) => ({
             videos: [],
 
             crew: [
-                {name: "Josh Miller", role: "Screenplay, Story"},
-                {name: "Jeff Fowler", role: "Director"},
-                {name: "Patrick Casey", role: "Screenplay, Story"},
-                {name: "John Whittington", role: "Screenplay"},
+                {name: "Josh Miller", job: "Screenplay, Story"},
+                {name: "Jeff Fowler", job: "Director"},
+                {name: "Patrick Casey", job: "Screenplay, Story"},
+                {name: "John Whittington", job: "Screenplay"},
             ],
             casting: [],
         }

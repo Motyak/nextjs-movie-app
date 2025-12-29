@@ -1,40 +1,11 @@
+import NowPlaying from "@/app/NowPlaying"
 import { inter400 } from "@/fonts"
-import MovieCard from "./MovieCard"
 import HorizontalCarousel from "./HorizontalCarousel"
-
+import MovieCard from "@/app/MovieCard"
 
 const TrendingHero = () => {
     return (
-        <div className="border-y border-green-500 border-dotted">NowPlaying</div>
-    )
-}
-
-const NowPlaying = () => {
-    return (
-        <div className="flex flex-col     border-y border-red-500 border-dotted">
-            <h2 className={`${inter400.className} text-xl`}>À l'affiche cette semaine</h2>
-            <div className="pt-4">
-                <HorizontalCarousel>
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                    
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" duration="1h48" />
-                </HorizontalCarousel>
-            </div>
-        </div>
+        <div className="border-y border-green-500 border-dotted">TrendingHero</div>
     )
 }
 

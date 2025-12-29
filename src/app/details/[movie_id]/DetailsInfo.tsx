@@ -22,6 +22,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                         {/* genres, duration and rating */}
                         <p>{movieInfo?.genres.join(", ")}</p>
                         <div className="flex gap-5 pt-1">
+                            {/* TODO: change this */}
                             <p>{Math.floor((movieInfo?.runtime ?? 0) / 60)}{"h "}{(movieInfo?.runtime ?? 0) % 60}{"m"}</p>
                             <RatingBar value={movieInfo?.rating ?? 0} />
                         </div>
@@ -52,13 +53,13 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                     <div className="flex w-full">
                         {movieInfo?.crew[0] === undefined ? <></> : 
                             <div className="flex flex-col w-1/2">
-                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[0].role}</h3>
+                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[0].job}</h3>
                                 <p className={`${archivo400.className}`}>{movieInfo?.crew[0].name}</p>
                             </div>
                         }
                         {movieInfo?.crew[1] === undefined ? <></> : 
                             <div className="flex flex-col">
-                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[1].role}</h3>
+                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[1].job}</h3>
                             <p className={`${archivo400.className}`}>{movieInfo?.crew[1].name}</p>
                         </div>
                         }
@@ -66,13 +67,13 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                     <div className="flex w-full">
                         {movieInfo?.crew[2] === undefined ? <></> : 
                             <div className="flex flex-col w-1/2">
-                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[2].role}</h3>
+                                <h3 className={`${archivo600.className}`}>{movieInfo?.crew[2].job}</h3>
                                 <p className={`${archivo400.className}`}>{movieInfo?.crew[2].name}</p>
                             </div>
                         }
                         {movieInfo?.crew[3] === undefined ? <></> : 
                             <div className="flex flex-col">
-                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[3].role}</h3>
+                            <h3 className={`${archivo600.className}`}>{movieInfo?.crew[3].job}</h3>
                             <p className={`${archivo400.className}`}>{movieInfo?.crew[3].name}</p>
                         </div>
                         }
