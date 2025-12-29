@@ -25,7 +25,10 @@ const NowPlaying = () => {
                         let {id, movieInfo} = x
                         let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
                         let name = movieInfo?.title === undefined ? "" : movieInfo.title
-                        let duration = movieInfo?.runtime === undefined ? "" : `${Math.floor(movieInfo.runtime / 60)}h${movieInfo.runtime % 60}`
+                        let duration = movieInfo?.runtime === undefined ? ""
+                            : movieInfo.runtime === 0 ? ""
+                            : movieInfo.runtime < 60? `${movieInfo.runtime}m`
+                            : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
                         return <MovieCard src={src} name={name} duration={duration} id={id} />
                     })}
                 </HorizontalCarousel>

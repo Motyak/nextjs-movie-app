@@ -30,7 +30,7 @@ const ResultGrid = ({children}: Readonly<{children: React.ReactNode}>) => {
 }
 
 export default function FetchResults({searchQuery}: {searchQuery: string}) {
-    let {searchResults, getSearchResult, setSearchResult} = useStore()
+    let {getSearchResult, setSearchResult} = useStore()
     useEffect(() => {
         if (getSearchResult(searchQuery) !== undefined) {
             return // nothing to do
@@ -41,13 +41,13 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 .then(searchResult => setSearchResult(searchQuery, searchResult))
         }
         storeData()
-    }, [searchResults])
+    }, [searchQuery])
 
     let searchResult = getSearchResult(searchQuery)
     if (searchResult === undefined) {
         return
     }
-    console.log(searchQuery, "+--", searchResult)
+
     let results = Object.entries(searchResult.results)
 
     return (
@@ -59,7 +59,9 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                         let [id, movieInfo] = x
                         let src = `/api/image/w154/${movieInfo.poster}`
                         let name = movieInfo.title
-                        let duration = `${Math.floor(movieInfo.runtime / 60)}h${movieInfo.runtime % 60}`
+                        let duration = movieInfo.runtime === 0 ? ""
+                            : movieInfo.runtime < 60? `${movieInfo.runtime}m`
+                            : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
                         return <MovieCard key={id} src={src} name={name} duration={duration} id={Number(id)} />
                     })}
                 </ResultGrid>

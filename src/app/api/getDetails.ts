@@ -22,7 +22,7 @@ const getDetails = (movieId: number): Promise<MovieInfo> => {
             genres: detailsObj.genres.map((x: any) => x.name),
             synopsis: detailsObj.overview,
 
-            poster: detailsObj.poster_path.slice(1),
+            poster: detailsObj.poster_path?.slice(1) ?? "",
             videos: detailsObj.videos.results.filter((x: any) => x.site == "YouTube").map((x: any) => x.key),
 
             crew: detailsObj.credits.crew.slice(0, 4).map((x: any) => ({name: x.name, job: x.job})),
