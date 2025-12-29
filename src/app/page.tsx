@@ -82,7 +82,7 @@ export default function Home() {
             })
         }
         storeData()
-    }, [nowPlaying])
+    }, [])
 
     return (
         <div className="flex justify-center pt-6">

@@ -20,7 +20,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                 .then(movieInfo => setMovieInfo(movie_id, movieInfo))
         }
         storeData()
-    }, [moviesInfo])
+    }, [])
 
     let movieInfo = getMovieInfo(movie_id)
     if (movieInfo === undefined) {
