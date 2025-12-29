@@ -9,8 +9,8 @@ export default async function Details({params}: {params: Promise<{movie_id: numb
         <div className="flex justify-center pt-6">
             <div className="flex flex-col w-full 2xl:w-2/3 px-4 gap-20              border border-red-500 border-dotted">
                 <DetailsInfo movie_id={movie_id} />
-                <DetailsVideo />
-                <DetailsCasting />
+                <DetailsVideo movie_id={movie_id} />
+                <DetailsCasting movie_id={movie_id} />
             </div>
         </div>
     )
