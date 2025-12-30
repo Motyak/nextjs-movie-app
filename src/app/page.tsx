@@ -6,15 +6,14 @@ import useStore from "@/store"
 import { inter400 } from "@/fonts"
 import { useEffect } from "react"
 import MovieInfo from "@/app/MovieInfo"
-// import VerticalCarousel from "@/app/VerticalCarousel"
 import Image from "next/image"
 
-const TrendingHero = () => {
+const Trending = () => {
     let {trending, getMovieInfo} = useStore()
     let trendingTable = trending?.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
-        <div className="pt-4 relative" style={{height: "300px"}}>
+        <div className="pt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
             {/* <VerticalCarousel> */}
                 <Image
                     src="/backdrop.jpg"
@@ -22,6 +21,7 @@ const TrendingHero = () => {
                     loading="eager" // fix warning
                     layout="fill"
                     objectFit="cover"
+                    className="rounded-lg"
                     style={{objectPosition: "center"}}
                 />
                 {/* {trendingTable?.map(x => {
@@ -107,12 +107,21 @@ export default function Home() {
     }, [])
 
     return (
-        <div className="flex justify-center pt-6">
-            <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">
-                <TrendingHero />
-                <NowPlaying />
-                <TopRated />
+        <>
+            {/* blurred hero background */}
+            <span className="absolute inset-0 z-[-1]" style={{
+                height: "600px",
+                background: "linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), url(/backdrop.jpg) center / cover",
+                filter: "blur(50px)",
+            }}></span>
+
+            <div className="flex justify-center pt-6">
+                <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">
+                    <Trending />
+                    <NowPlaying />
+                    <TopRated />
+                </div>
             </div>
-        </div>
+        </>
     )
 }
