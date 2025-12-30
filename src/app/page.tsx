@@ -38,28 +38,21 @@ const NowPlaying = () => {
 }
 
 const TopRated = () => {
+    let {topRated, getMovieInfo} = useStore()
+    let topRatedTable = topRated?.map(id => ({id, movieInfo: getMovieInfo(id)}))
+
     return (
-        <div className="flex flex-col     border-y border-blue-500 border-dotted">
+        <div className="flex flex-col     border-y border-red-500 border-dotted">
             <h2 className={`${inter400.className} text-xl`}>Les films les mieux notés</h2>
             <div className="pt-4">
                 <HorizontalCarousel>
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
-                    
-                    <MovieCard src="/sonic_poster.png" name="Sonic 2, le film" rating={80} />
+                    {topRatedTable?.map(x => {
+                        let {id, movieInfo} = x
+                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
+                        let name = movieInfo?.title === undefined ? "" : movieInfo.title
+                        let rating = movieInfo?.rating === undefined ? 0 : movieInfo.rating
+                        return <MovieCard src={src} name={name} rating={rating} id={id} />
+                    })}
                 </HorizontalCarousel>
             </div>
         </div>
@@ -67,7 +60,7 @@ const TopRated = () => {
 }
 
 export default function Home() {
-    let {nowPlaying, setNowPlaying, setMovieInfo} = useStore()
+    let {nowPlaying, setNowPlaying, setTopRated, setMovieInfo} = useStore()
 
     useEffect(() => {
         if (nowPlaying !== undefined) {
@@ -76,9 +69,14 @@ export default function Home() {
         const storeData = async () => {
             await fetch("/api/home").then(x => x.json()).then(res => {
                 // TODO: add setTrending and setTopRated
+                let topRated: any[] = Object.entries(res.topRated)
                 let nowPlaying: any[] = Object.entries(res.nowPlaying)
+
                 setNowPlaying(nowPlaying.map(x => x[0]))
+                setTopRated(topRated.map(x => x[0]))
+
                 nowPlaying.forEach(x => setMovieInfo(x[0], x[1]))
+                topRated.forEach(x => setMovieInfo(x[0], x[1]))
             })
         }
         storeData()
