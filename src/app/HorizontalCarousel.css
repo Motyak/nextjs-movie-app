@@ -1,3 +1,9 @@
 .slick-slide {
-  margin: 0 10px;
+    margin: 0 10px; /* gap between elements */
+}
+
+.slick-prev,
+.slick-next
+{
+    top: 105px; /* to align with MovieCard which height is 210px */
 }
