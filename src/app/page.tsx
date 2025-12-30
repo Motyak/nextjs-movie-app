@@ -141,7 +141,7 @@ export default function Home() {
             <HomeHero />
 
             <div className="flex justify-center pt-6">
-                <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">
+                <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10 px-11 lg:px-0">
                     <Trending />
                     <NowPlaying />
                     <TopRated />
