@@ -19,9 +19,29 @@ const getWeekExtremum = (): string[] => {
 }
 
 export async function GET(req: Request) {
-    let trending: Promise<MovieInfo[]>
+    let trending: Promise<{movieId: number, movieInfo: MovieInfo}[]>
     let nowPlaying: Promise<{movieId: number, movieInfo: MovieInfo}[]>
     let topRated: Promise<{movieId: number, movieInfo: MovieInfo}[]>
+
+    /* trending movies */
+    {
+        let url = "https://api.themoviedb.org/3/trending/movie/day?language=fr"
+
+        let req = fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${getBearerToken()}`,
+            },
+        })
+
+        trending = req.then(res => res.json()).then(obj => {
+            let movieIds: number[] = obj.results.slice(0, 3).map((x: {id: number}) => x.id)
+            return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
+                let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
+                movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
+                return moviesInfo
+            })
+        })
+    }
 
     /* top rated movies */
     {
@@ -75,7 +95,7 @@ export async function GET(req: Request) {
     }
     
     let response = {
-        // trending: await trending,
+        trending: await trending,
         nowPlaying: await nowPlaying,
         topRated: await topRated,
     }

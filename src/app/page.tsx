@@ -1,15 +1,38 @@
 "use client"
 
-import HorizontalCarousel from "./HorizontalCarousel"
+import HorizontalCarousel from "@/app/HorizontalCarousel"
 import MovieCard from "@/app/MovieCard"
 import useStore from "@/store"
 import { inter400 } from "@/fonts"
 import { useEffect } from "react"
 import MovieInfo from "@/app/MovieInfo"
+// import VerticalCarousel from "@/app/VerticalCarousel"
+import Image from "next/image"
 
 const TrendingHero = () => {
+    let {trending, getMovieInfo} = useStore()
+    let trendingTable = trending?.map(id => ({id, movieInfo: getMovieInfo(id)}))
+
     return (
-        <div className="border-y border-green-500 border-dotted">TrendingHero</div>
+        <div className="pt-4 relative" style={{height: "300px"}}>
+            {/* <VerticalCarousel> */}
+                <Image
+                    src="/backdrop.jpg"
+                    alt="backdrop"
+                    loading="eager" // fix warning
+                    layout="fill"
+                    objectFit="cover"
+                    style={{objectPosition: "center"}}
+                />
+                {/* {trendingTable?.map(x => {
+                    let {id, movieInfo} = x
+                    let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
+                    let name = movieInfo?.title === undefined ? "" : movieInfo.title
+                    let releaseYear = movieInfo?.releaseYear === undefined ? "" : movieInfo.releaseYear
+                    return <MovieBanner src={src} name={name} releaseYear={releaseYear} id={id} />
+                })} */}
+            {/* </VerticalCarousel> */}
+        </div>
     )
 }
 
