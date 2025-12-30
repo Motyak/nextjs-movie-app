@@ -14,7 +14,7 @@ const ResultsFound = ({searchQuery, nbOfResults}: ResultsFoundProp) => {
     let displayNbOfResults = `${nbOfResults} résultat` + (nbOfResults < 2? "" : "s")
     
     return (
-        <h1 className="flex flex-col          border-y border-red-500 border-dotted">
+        <h1 className="flex flex-col">
             <span className={`${archivoBlack400.className} text-4xl`}>{searchQuery}</span>
             <span className={`${archivo400.className} text-4xl`}>{displayNbOfResults}</span>
         </h1>
@@ -23,7 +23,7 @@ const ResultsFound = ({searchQuery, nbOfResults}: ResultsFoundProp) => {
 
 const ResultGrid = ({children}: Readonly<{children: React.ReactNode}>) => {
     return (
-        <div className="flex flex-wrap gap-6            border-y border-green-500 border-dotted">
+        <div className="flex flex-wrap gap-6">
             {children}
         </div>
     )

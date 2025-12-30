@@ -18,7 +18,7 @@ const NowPlaying = () => {
     let nowPlayingTable = nowPlaying?.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
-        <div className="flex flex-col     border-y border-red-500 border-dotted">
+        <div className="flex flex-col">
             <h2 className={`${inter400.className} text-xl`}>À l'affiche cette semaine</h2>
             <div className="pt-4">
                 <HorizontalCarousel>
@@ -43,7 +43,7 @@ const TopRated = () => {
     let topRatedTable = topRated?.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
-        <div className="flex flex-col     border-y border-red-500 border-dotted">
+        <div className="flex flex-col">
             <h2 className={`${inter400.className} text-xl`}>Les films les mieux notés</h2>
             <div className="pt-4">
                 <HorizontalCarousel>
