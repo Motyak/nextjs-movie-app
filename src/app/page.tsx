@@ -3,10 +3,12 @@
 import HorizontalCarousel from "@/app/HorizontalCarousel"
 import MovieCard from "@/app/MovieCard"
 import useStore from "@/store"
-import { inter400 } from "@/fonts"
+import { archivo400, archivoBlack400, inter400 } from "@/fonts"
 import { useEffect } from "react"
 import MovieInfo from "@/app/MovieInfo"
 import Image from "next/image"
+import { Button, KIND } from "baseui/button"
+import Link from "next/link"
 
 // blurred hero background
 const HomeHero = () => {
@@ -27,27 +29,37 @@ const Trending = () => {
     let {trending, getMovieInfo} = useStore()
     let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
     let src = `/api/image/w780/${trendingMovie?.backdrop ?? ""}`
+    let href = `/details/${trending?.at(0) ?? -1}`
 
     return (
         <div className="pt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
-            {/* <VerticalCarousel> */}
-                <Image
-                    src={src}
-                    alt="backdrop"
-                    loading="eager" // fix warning
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-lg"
-                    style={{objectPosition: "center"}}
-                />
-                {/* {trendingTable?.map(x => {
-                    let {id, movieInfo} = x
-                    let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
-                    let name = movieInfo?.title === undefined ? "" : movieInfo.title
-                    let releaseYear = movieInfo?.releaseYear === undefined ? "" : movieInfo.releaseYear
-                    return <MovieBanner src={src} name={name} releaseYear={releaseYear} id={id} />
-                })} */}
-            {/* </VerticalCarousel> */}
+            <Image
+                src={src}
+                alt="backdrop"
+                loading="eager" // fix warning
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+                style={{objectPosition: "top"}}
+            />
+            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 pb-6">
+                <h1 className="text-4xl uppercase" >
+                    <span className={`${archivoBlack400.className}`}>{trendingMovie?.title ?? ""}</span>
+                    <span className={`${archivo400.className}`}>{" ("}{trendingMovie?.releaseYear ?? ""}{")"}</span>
+                </h1>
+                <div className="flex gap-2">
+                    <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
+                        <p className={`${archivo400.className}`}>Regarder</p>
+                    </Button>
+                    <div className="border border-white rounded" style={{width: "139px", height: "36px"}}>
+                        <Link href={href}>
+                            <Button colors={{backgroundColor: "#FFFFFF00", color: "#FFFFFF"}} style={{borderRadius: "4px", width: "139px", height: "33px"}}>
+                                <p className={`${archivo400.className}`}>En savoir plus</p>
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -8,7 +8,7 @@ import RatingBar from "@/app/RatingBar"
 import { useEffect } from "react"
 
 export default function DetailsInfo({movie_id}: {movie_id: number}) {
-    let {moviesInfo, getMovieInfo, setMovieInfo} = useStore()
+    let {getMovieInfo, setMovieInfo} = useStore()
 
     useEffect(() => {
         if (getMovieInfo(movie_id) !== undefined) {
@@ -27,6 +27,11 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
         return
     }
 
+    let duration = movieInfo?.runtime === undefined ? ""
+        : movieInfo.runtime === 0 ? ""
+        : movieInfo.runtime < 60? `${movieInfo.runtime}m`
+        : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
+
     return (
         <div className="flex">
             <div className="w-1/2">
@@ -39,8 +44,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
                         {/* genres, duration and rating */}
                         <p>{movieInfo?.genres.join(", ")}</p>
                         <div className="flex gap-5 pt-1">
-                            {/* TODO: change this */}
-                            <p>{Math.floor((movieInfo?.runtime ?? 0) / 60)}{"h "}{(movieInfo?.runtime ?? 0) % 60}{"m"}</p>
+                            <p>{duration}</p>
                             <RatingBar value={movieInfo?.rating ?? 0} />
                         </div>
 
