@@ -10,8 +10,9 @@ The following is meant to REPLACE original slick-theme.css
 .slick-next
 {
     cursor: pointer;
-    top: 125px; /* to align with MovieCard which height is 210px */
-                /* => MovieCard height / 2 + arrow height / 2 = 105 + 20 */
+    position: absolute;
+    top: 85px; /* to align with MovieCard which height is 210px */
+                /* => MovieCard height / 2 - arrow height / 2 = 105 - 20 */
 }
 
 .slick-prev {
@@ -39,5 +40,6 @@ The following is meant to REPLACE original slick-theme.css
 .slick-prev.slick-disabled,
 .slick-next.slick-disabled
 {
+    cursor: default;
     opacity: .25;
 }
