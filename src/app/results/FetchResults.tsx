@@ -57,7 +57,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 <ResultGrid>
                     {results.map(x => {
                         let {movieId, movieInfo} = x
-                        let src = `/api/image/w154/${movieInfo.poster}`
+                        let src = `/api/image/w300/${movieInfo.poster}`
                         let name = movieInfo.title
                         let duration = movieInfo.runtime === 0 ? ""
                             : movieInfo.runtime < 60? `${movieInfo.runtime}m`

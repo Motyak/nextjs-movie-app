@@ -16,7 +16,7 @@ export default function DetailsCasting({movie_id}: {movie_id: number}) {
                     <div key={cast.name} style={{width: "160px"}}>
                         <div className="relative" style={{height: "160px"}}>
                             <Image
-                                src={`/api/image/w185/${cast.photo}`}
+                                src={`/api/image/w300/${cast.photo}`}
                                 layout="fill"
                                 objectFit="cover"
                                 style={{objectPosition: "center"}}

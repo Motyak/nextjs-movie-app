@@ -14,7 +14,7 @@ import Link from "next/link"
 const HomeHero = () => {
     let {trending, getMovieInfo} = useStore()
     let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
-    let src = `/api/image/w780/${trendingMovie?.backdrop ?? ""}`
+    let src = `/api/image/w300/${trendingMovie?.backdrop ?? ""}`
 
     return (
         <span className="absolute inset-0 z-[-1]" style={{
@@ -28,7 +28,7 @@ const HomeHero = () => {
 const Trending = () => {
     let {trending, getMovieInfo} = useStore()
     let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
-    let src = `/api/image/w780/${trendingMovie?.backdrop ?? ""}`
+    let src = `/api/image/w1280/${trendingMovie?.backdrop ?? ""}`
     let href = `/details/${trending?.at(0) ?? -1}`
 
     return (
@@ -75,7 +75,7 @@ const NowPlaying = () => {
                 <HorizontalCarousel>
                     {nowPlayingTable?.map(x => {
                         let {id, movieInfo} = x
-                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
+                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w300/${movieInfo.poster}`
                         let name = movieInfo?.title === undefined ? "" : movieInfo.title
                         let duration = movieInfo?.runtime === undefined ? ""
                             : movieInfo.runtime === 0 ? ""
@@ -100,7 +100,7 @@ const TopRated = () => {
                 <HorizontalCarousel>
                     {topRatedTable?.map(x => {
                         let {id, movieInfo} = x
-                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w154/${movieInfo.poster}`
+                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w300/${movieInfo.poster}`
                         let name = movieInfo?.title === undefined ? "" : movieInfo.title
                         let rating = movieInfo?.rating === undefined ? 0 : movieInfo.rating
                         return <MovieCard src={src} name={name} rating={rating} id={id} />
