@@ -32,7 +32,7 @@ const Trending = () => {
     let href = `/details/${trending?.at(0) ?? -1}`
 
     return (
-        <div className="pt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
+        <div className="mt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
             <Image
                 src={src}
                 alt="backdrop"
@@ -42,8 +42,8 @@ const Trending = () => {
                 className="rounded-lg"
                 style={{objectPosition: "top"}}
             />
-            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 pb-6">
-                <h1 className="text-4xl uppercase" >
+            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6">
+                <h1 className="text-4xl uppercase shadowOverlay" >
                     <span className={`${archivoBlack400.className}`}>{trendingMovie?.title ?? ""}</span>
                     <span className={`${archivo400.className}`}>{" ("}{trendingMovie?.releaseYear ?? ""}{")"}</span>
                 </h1>

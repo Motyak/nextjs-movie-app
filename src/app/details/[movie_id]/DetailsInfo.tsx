@@ -35,7 +35,7 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
     return (
         <div className="flex">
             <div className="w-1/2">
-                <div className="flex flex-col gap-8 " style={{maxWidth: "436px"}}>
+                <div className="flex flex-col gap-8 p-2 shadowOverlay" style={{maxWidth: "436px"}}>
                     <h1 className="text-4xl uppercase" >
                         <span className={`${archivoBlack400.className}`}>{movieInfo?.title ?? ""}</span>
                         <span className={`${archivo400.className}`}>{" ("}{movieInfo?.releaseYear ?? ""}{")"}</span>
