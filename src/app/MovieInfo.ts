@@ -9,6 +9,7 @@ type MovieInfo = {
     synopsis: string
 
     poster: string // e.g.: 8nytsqL59SFJTVYVrN72k6qkGgJ.jpg
+    backdrop: string // e.g.: l8pwO23MCvqYumzozpxynCNfck1.jpg
     videos: string[] // YouTube keys, e.g.: tZpXdiB_pg0
 
     crew: {

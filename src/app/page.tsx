@@ -8,15 +8,31 @@ import { useEffect } from "react"
 import MovieInfo from "@/app/MovieInfo"
 import Image from "next/image"
 
+// blurred hero background
+const HomeHero = () => {
+    let {trending, getMovieInfo} = useStore()
+    let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
+    let src = `/api/image/w780/${trendingMovie?.backdrop ?? ""}`
+
+    return (
+        <span className="absolute inset-0 z-[-1]" style={{
+            height: "600px",
+            background: `linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), url(${src}) center / cover`,
+            filter: "blur(50px)",
+        }}></span>
+    )
+}
+
 const Trending = () => {
     let {trending, getMovieInfo} = useStore()
-    let trendingTable = trending?.map(id => ({id, movieInfo: getMovieInfo(id)}))
+    let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
+    let src = `/api/image/w780/${trendingMovie?.backdrop ?? ""}`
 
     return (
         <div className="pt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
             {/* <VerticalCarousel> */}
                 <Image
-                    src="/backdrop.jpg"
+                    src={src}
                     alt="backdrop"
                     loading="eager" // fix warning
                     layout="fill"
@@ -84,7 +100,7 @@ const TopRated = () => {
 }
 
 export default function Home() {
-    let {nowPlaying, setNowPlaying, setTopRated, setMovieInfo} = useStore()
+    let {nowPlaying, setTrending, setNowPlaying, setTopRated, setMovieInfo} = useStore()
 
     useEffect(() => {
         if (nowPlaying !== undefined) {
@@ -92,13 +108,15 @@ export default function Home() {
         }
         const storeData = async () => {
             await fetch("/api/home").then(x => x.json()).then(res => {
-                // TODO: add setTrending
+                let trending: {movieId: number, movieInfo: MovieInfo}[] = res.trending
                 let topRated: {movieId: number, movieInfo: MovieInfo}[] = res.topRated
                 let nowPlaying: {movieId: number, movieInfo: MovieInfo}[] = res.nowPlaying
 
+                setTrending(trending.map(x => x.movieId))
                 setNowPlaying(nowPlaying.map(x => x.movieId))
                 setTopRated(topRated.map(x => x.movieId))
 
+                trending.forEach(x => setMovieInfo(x.movieId, x.movieInfo))
                 nowPlaying.forEach(x => setMovieInfo(x.movieId, x.movieInfo))
                 topRated.forEach(x => setMovieInfo(x.movieId, x.movieInfo))
             })
@@ -108,12 +126,7 @@ export default function Home() {
 
     return (
         <>
-            {/* blurred hero background */}
-            <span className="absolute inset-0 z-[-1]" style={{
-                height: "600px",
-                background: "linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), url(/backdrop.jpg) center / cover",
-                filter: "blur(50px)",
-            }}></span>
+            <HomeHero />
 
             <div className="flex justify-center pt-6">
                 <div className="flex flex-col w-5/6 2xl:w-3/5 gap-10">

@@ -1,6 +1,5 @@
 "use client"
 
-import { inter400 } from "@/fonts"
 import useStore from "@/store"
 
 export default function DetailsHero({movie_id}: {movie_id: number}) {
