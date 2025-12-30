@@ -17,16 +17,18 @@ export default function MovieCard({src, name, duration, rating, id}: MovieCardPr
     let href = id !== undefined? `/details/${id}` : ""
     return (
         <div className="flex flex-col" style={{width: "140px"}}>
-            <div className="relative" style={{height: "210px"}}>
-                <Image
-                    src={src}
-                    layout="fill"
-                    objectFit="cover"
-                    alt="poster"
-                    loading="eager" // fix warning
-                />
-            </div>
-            <Link href={href}><h3 className={`${inter400.className} pt-2 break-words hover:underline`}>{name}</h3></Link>
+            <Link href={href}>
+                <div className="relative" style={{height: "210px"}}>
+                    <Image
+                        src={src}
+                        layout="fill"
+                        objectFit="cover"
+                        alt="poster"
+                        loading="eager" // fix warning
+                    />
+                </div>
+            </Link>
+            <Link href={href} className="w-fit max-w-full"><h3 className={`${inter400.className} pt-2 break-words hover:underline`}>{name}</h3></Link>
             {duration !== undefined ?
                 <p className={`${archivo400.className} text-sm -mt-0.5`} style={{color: "#9B9B9B"}}>{duration}</p>
                 : <></>
