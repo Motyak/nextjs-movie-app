@@ -18,9 +18,9 @@ export async function GET(_req: Request) {
     let movieResults = await req.then(res => res.json()).then(obj => {
         let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
         return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
-            let table: {[movieId: number]: MovieInfo} = {}
-            movieIds.forEach((id, index) => table[id] = movieInfos[index]);
-            return table
+            let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
+            movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
+            return moviesInfo
         })
     })
     

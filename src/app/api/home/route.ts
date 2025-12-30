@@ -20,8 +20,8 @@ const getWeekExtremum = (): string[] => {
 
 export async function GET(req: Request) {
     let trending: Promise<MovieInfo[]>
-    let nowPlaying: Promise<{[movieId: number]: MovieInfo}>
-    let topRated: Promise<{[movieId: number]: MovieInfo}>
+    let nowPlaying: Promise<{movieId: number, movieInfo: MovieInfo}[]>
+    let topRated: Promise<{movieId: number, movieInfo: MovieInfo}[]>
 
     /* top rated movies */
     {
@@ -40,9 +40,9 @@ export async function GET(req: Request) {
         topRated = req.then(res => res.json()).then(obj => {
             let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
             return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
-                let table: {[movieId: number]: MovieInfo} = {}
-                movieIds.forEach((id, index) => table[id] = movieInfos[index]);
-                return table
+                let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
+                movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
+                return moviesInfo
             })
         })
     }
@@ -67,9 +67,9 @@ export async function GET(req: Request) {
         nowPlaying = req.then(res => res.json()).then(obj => {
             let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
             return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
-                let table: {[movieId: number]: MovieInfo} = {}
-                movieIds.forEach((id, index) => table[id] = movieInfos[index]);
-                return table
+                let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
+                movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
+                return moviesInfo
             })
         })
     }

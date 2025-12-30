@@ -4,7 +4,7 @@ import MovieInfo from "./app/MovieInfo"
 
 export type SearchResult = {
     nbOfResults: number
-    results: {[id: number]: MovieInfo}
+    results: {movieId: number, movieInfo: MovieInfo}[]
 }
 
 type StoreState = {
@@ -76,7 +76,7 @@ const useStore = create<StoreState>((set, get) => ({
     })),
 
     searchResults: {
-        // "": {nbOfResults: 0, results: {}} // cache empty search query
+        "": {nbOfResults: 0, results: []} // cache empty search query
     },
     getSearchResult: (searchQuery: string) => {
         const state = get()

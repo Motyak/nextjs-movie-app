@@ -48,7 +48,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
         return
     }
 
-    let results = Object.entries(searchResult.results)
+    let results = searchResult.results
 
     return (
         <div className="flex justify-center pt-6">
@@ -56,13 +56,13 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 <ResultsFound searchQuery={searchQuery} nbOfResults={searchResult.nbOfResults} />
                 <ResultGrid>
                     {results.map(x => {
-                        let [id, movieInfo] = x
+                        let {movieId, movieInfo} = x
                         let src = `/api/image/w154/${movieInfo.poster}`
                         let name = movieInfo.title
                         let duration = movieInfo.runtime === 0 ? ""
                             : movieInfo.runtime < 60? `${movieInfo.runtime}m`
                             : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
-                        return <MovieCard key={id} src={src} name={name} duration={duration} id={Number(id)} />
+                        return <MovieCard key={movieId} src={src} name={name} duration={duration} id={Number(movieId)} />
                     })}
                 </ResultGrid>
             </div>

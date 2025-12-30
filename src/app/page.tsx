@@ -5,6 +5,7 @@ import MovieCard from "@/app/MovieCard"
 import useStore from "@/store"
 import { inter400 } from "@/fonts"
 import { useEffect } from "react"
+import MovieInfo from "@/app/MovieInfo"
 
 const TrendingHero = () => {
     return (
@@ -68,15 +69,15 @@ export default function Home() {
         }
         const storeData = async () => {
             await fetch("/api/home").then(x => x.json()).then(res => {
-                // TODO: add setTrending and setTopRated
-                let topRated: any[] = Object.entries(res.topRated)
-                let nowPlaying: any[] = Object.entries(res.nowPlaying)
+                // TODO: add setTrending
+                let topRated: {movieId: number, movieInfo: MovieInfo}[] = res.topRated
+                let nowPlaying: {movieId: number, movieInfo: MovieInfo}[] = res.nowPlaying
 
-                setNowPlaying(nowPlaying.map(x => x[0]))
-                setTopRated(topRated.map(x => x[0]))
+                setNowPlaying(nowPlaying.map(x => x.movieId))
+                setTopRated(topRated.map(x => x.movieId))
 
-                nowPlaying.forEach(x => setMovieInfo(x[0], x[1]))
-                topRated.forEach(x => setMovieInfo(x[0], x[1]))
+                nowPlaying.forEach(x => setMovieInfo(x.movieId, x.movieInfo))
+                topRated.forEach(x => setMovieInfo(x.movieId, x.movieInfo))
             })
         }
         storeData()
