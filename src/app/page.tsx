@@ -40,10 +40,10 @@ const Trending = () => {
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
-                style={{objectPosition: "top"}}
+                style={{objectPosition: "center"}}
             />
-            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6">
-                <h1 className="text-4xl uppercase shadowOverlay" >
+            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
+                <h1 className="text-4xl uppercase" >
                     <span className={`${archivoBlack400.className}`}>{trendingMovie?.title ?? ""}</span>
                     <span className={`${archivo400.className}`}>{" ("}{trendingMovie?.releaseYear ?? ""}{")"}</span>
                 </h1>

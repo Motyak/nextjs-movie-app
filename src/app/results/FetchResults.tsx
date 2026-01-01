@@ -15,7 +15,7 @@ const ResultsFound = ({searchQuery, nbOfResults}: ResultsFoundProp) => {
     
     return (
         <h1 className="flex flex-col">
-            <span className={`${archivoBlack400.className} text-4xl`}>{searchQuery}</span>
+            <span className={`${archivoBlack400.className} text-4xl lowercase`}>{searchQuery}</span>
             <span className={`${archivo400.className} text-4xl`}>{displayNbOfResults}</span>
         </h1>
     )
