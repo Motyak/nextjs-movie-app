@@ -27,6 +27,7 @@ const HomeHero = () => {
 
 const Trending = () => {
     let {trending, getMovieInfo} = useStore()
+    // TODO: if (!trending) {return}
     let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
     let src = `/api/image/w1280/${trendingMovie?.backdrop ?? ""}`
     let href = `/details/${trending?.at(0) ?? -1}`

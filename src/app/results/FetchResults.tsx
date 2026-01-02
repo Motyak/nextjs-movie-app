@@ -30,33 +30,61 @@ const ResultGrid = ({children}: Readonly<{children: React.ReactNode}>) => {
 }
 
 export default function FetchResults({searchQuery}: {searchQuery: string}) {
-    let {getSearchResult, setSearchResult} = useStore()
+    let {
+        searchResults, getSearchResult, setSearchResult,
+        getMovieInfo, setMovieInfo,
+    } = useStore()
+
     useEffect(() => {
-        if (getSearchResult(searchQuery) !== undefined) {
-            return // nothing to do
+        if (getSearchResult(searchQuery) === undefined) {
+            const storeData = async () => {
+                await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
+                    .then(x => x.json())
+                    .then(x => setSearchResult(searchQuery, {
+                        nbOfResults: x.nbOfResults,
+                        nbOfPages: x.nbOfPages,
+                        fetchedResults: [x.movieIds]
+                    }))
+            }
+            storeData()
+            return
         }
-        const storeData = async () => {
-            await fetch(`/api/results?q=${encodeURIComponent(searchQuery ?? "")}`)
-                .then(x => x.json())
-                .then(searchResult => setSearchResult(searchQuery, searchResult))
+        let searchResult = getSearchResult(searchQuery)
+        if (searchResult === undefined) {
+            return
         }
-        storeData()
-    }, [searchQuery])
+        searchResult.fetchedResults.at(-1)?.map((movieId) => {
+            if (getMovieInfo(movieId) === undefined) {
+                const storeData = async () => {
+                    await fetch(`/api/details/${movieId}`)
+                        .then(x => x.json())
+                        .then(movieInfo => setMovieInfo(movieId, movieInfo))
+                }
+                storeData()
+            }
+        })
+
+        // searchResult.fetchedResults.length
+        // searchResult.nbOfPages
+
+    }, [searchQuery, searchResults])
 
     let searchResult = getSearchResult(searchQuery)
     if (searchResult === undefined) {
         return
     }
 
-    let results = searchResult.results
-
     return (
         <div className="flex justify-center pt-6">
             <div className="flex flex-col w-full 2xl:w-3/4 px-4 gap-10">
                 <ResultsFound searchQuery={searchQuery} nbOfResults={searchResult.nbOfResults} />
                 <ResultGrid>
-                    {results.map(x => {
-                        let {movieId, movieInfo} = x
+                    {searchResult.fetchedResults.at(-1)?.map(movieId => {
+                        let movieInfo = getMovieInfo(movieId)
+                        if (movieInfo === undefined) {
+                            return
+                        }
+
                         let src = `/api/image/w300/${movieInfo.poster}`
                         let name = movieInfo.title
                         let duration = movieInfo.runtime === 0 ? ""
