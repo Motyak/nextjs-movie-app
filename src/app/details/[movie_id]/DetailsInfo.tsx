@@ -33,8 +33,8 @@ export default function DetailsInfo({movie_id}: {movie_id: number}) {
         : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
 
     return (
-        <div className="flex">
-            <div className="w-1/2">
+        <div className="flex flex-wrap">
+            <div className="md:w-1/2">
                 <div className="flex flex-col gap-8 p-2 shadowOverlay" style={{maxWidth: "436px"}}>
                     <h1 className="text-4xl uppercase" >
                         <span className={`${archivoBlack400.className}`}>{movieInfo?.title ?? ""}</span>
