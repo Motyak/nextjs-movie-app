@@ -2,6 +2,11 @@
 import { create } from "zustand"
 import MovieInfo from "./app/MovieInfo"
 
+export type SearchSuggestion = {
+    movie: string // title + year
+    movieId: number
+}
+
 export type SearchResult = {
     nbOfResults: number
     results: {movieId: number, movieInfo: MovieInfo}[]
@@ -13,6 +18,9 @@ type StoreState = {
 
     searchValue: string
     setSearchValue: (newValue: string) => void
+
+    searchSuggestions: SearchSuggestion[]
+    setSearchSuggestions: (newValue: SearchSuggestion[]) => void
 
     trending?: number[] | undefined
     setTrending: (newValue: number[]) => void
@@ -41,6 +49,9 @@ const useStore = create<StoreState>((set, get) => ({
 
     searchValue: "",
     setSearchValue: (newValue: string) => set({searchValue: newValue}),
+
+    searchSuggestions: [],
+    setSearchSuggestions: (newValue: SearchSuggestion[]) => set({searchSuggestions: newValue}),
 
     trending: undefined,
     setTrending: (newValue: number[]) => set({trending: newValue}),

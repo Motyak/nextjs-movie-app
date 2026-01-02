@@ -7,6 +7,7 @@ import { archivo400, archivo600 } from "@/fonts"
 import useStore from "@/store"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 const Magnifier = () => {
     let {searchValue, setSearchBarFocused} = useStore()
@@ -41,12 +42,17 @@ const Cross = () => {
 
 export default function SearchBar() {
     let router = useRouter()
-    let {searchValue, setSearchValue, searchBarFocused, setSearchBarFocused} = useStore()
+    let {
+        searchValue, setSearchValue,
+        searchBarFocused, setSearchBarFocused,
+        searchSuggestions, setSearchSuggestions,
+    } = useStore()
     let href = searchValue == "" ? "/" : `/results?q=${encodeURIComponent(searchValue.trim())}`
 
     const onKeyDown = (e: any) => {
         if (e.key === "Enter") {
             router.push(href)
+            setSearchBarFocused(false)
         }
     }
 
@@ -71,20 +77,23 @@ export default function SearchBar() {
         setSearchBarFocused(false)
     }
 
-    let items = [
-        {label: "hello", movieId: "123"},
-        {label: "hello2", movieId: "777"},
-        {label: "hello", movieId: "123"},
-        {label: "hello2", movieId: "777"},
-        {label: "hello", movieId: "123"},
-        {label: "hello2", movieId: "777"},
-        {label: "hello", movieId: "123"},
-        {label: "hello2", movieId: "777"},
-        {label: "hello", movieId: "123"},
-        {label: "hello2", movieId: "777"},
-        {divider: true},
-        {label: "Afficher tous les résultats", end: true},
-    ]
+    useEffect(() => {
+        if (!searchValue.trim()) {
+            return
+        }
+
+        const storeData = async () => {
+            await fetch(`/api/search?q=${encodeURIComponent(searchValue.trim())}`)
+                .then(x => x.json())
+                .then(searchSuggestions => setSearchSuggestions(searchSuggestions))
+        }
+
+        let debounce = setTimeout(() => {
+            storeData()
+        }, 100)
+
+        return () => clearTimeout(debounce)
+    }, [searchValue])
 
     return (
         <div id="searchbar" className="relative" >
@@ -126,7 +135,7 @@ export default function SearchBar() {
             {searchValue.trim() === "" || !searchBarFocused ? <></> :
                 <div id="searchmenu" className="w-full absolute z-10">
                     <Menu
-                        items={items}
+                        items={[...searchSuggestions, {divider: true}, {label: "Afficher tous les résultats", end: true}]}
                         // onItemSelect={({item, event}) => {console.log(item, event)}}
                         overrides={{
                             ListItem: {
@@ -141,7 +150,7 @@ export default function SearchBar() {
                                     ) : (
                                         <Link href={`/details/${item.movieId}`} onClick={()=>setSearchBarFocused(false)}>
                                             <li className={`px-13 py-2 text-black hover:bg-gray-200 ${archivo400.className}`} style={{fontSize: "14px"}}>
-                                                {item.label}
+                                                {item.movie}
                                             </li>
                                         </Link>
                                     )

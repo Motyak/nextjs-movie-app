@@ -2,7 +2,7 @@
 
 import { archivo400, archivoBlack400 } from "@/fonts"
 import MovieCard from "@/app/MovieCard"
-import useStore, { SearchResult } from "@/store"
+import useStore from "@/store"
 import { useEffect } from "react"
 
 type ResultsFoundProp = {

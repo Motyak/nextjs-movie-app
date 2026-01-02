@@ -16,7 +16,7 @@ const getDetails = (movieId: number): Promise<MovieInfo> => {
     return req.then(res => res.json()).then(detailsObj => {
         let movieInfo: MovieInfo = {
             title: detailsObj.title,
-            releaseYear: Number(detailsObj.release_date.slice(0, 4)),
+            releaseYear: Number(String(detailsObj.release_date).slice(0, 4)),
             runtime: detailsObj.runtime,
             rating: detailsObj.vote_average / 10,
             genres: detailsObj.genres.map((x: any) => x.name),
