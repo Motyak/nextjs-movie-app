@@ -8,6 +8,9 @@ export type SearchResult = {
 }
 
 type StoreState = {
+    searchBarFocused: boolean
+    setSearchBarFocused: (newValue: boolean) => void
+
     searchValue: string
     setSearchValue: (newValue: string) => void
 
@@ -33,6 +36,9 @@ type StoreState = {
 }
 
 const useStore = create<StoreState>((set, get) => ({
+    searchBarFocused: false,
+    setSearchBarFocused: (newValue: boolean) => set({searchBarFocused: newValue}),
+
     searchValue: "",
     setSearchValue: (newValue: string) => set({searchValue: newValue}),
 

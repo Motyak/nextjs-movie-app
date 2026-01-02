@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { archivo400, inter400 } from "@/fonts"
 import RatingBar from "./RatingBar"
+import useStore from "@/store"
 
 interface MovieCardProp {
     src: string
@@ -28,7 +29,9 @@ export default function MovieCard({src, name, duration, rating, id}: MovieCardPr
                     />
                 </div>
             </Link>
-            <Link href={href} className="w-fit max-w-full"><h3 className={`${inter400.className} pt-2 break-words hover:underline`}>{name}</h3></Link>
+            <Link href={href} className="w-fit max-w-full">
+                <h3 className={`${inter400.className} pt-2 break-words hover:underline`}>{name}</h3>
+            </Link>
             {duration !== undefined ?
                 <p className={`${archivo400.className} text-sm -mt-0.5`} style={{color: "#9B9B9B"}}>{duration}</p>
                 : <></>
