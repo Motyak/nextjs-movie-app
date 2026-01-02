@@ -13,7 +13,10 @@ import Link from "next/link"
 // blurred hero background
 const HomeHero = () => {
     let {trending, getMovieInfo} = useStore()
-    let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
+    if (trending === undefined) {
+        return
+    }
+    let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
     let src = `/api/image/w300/${trendingMovie?.backdrop ?? ""}`
 
     return (
@@ -27,8 +30,11 @@ const HomeHero = () => {
 
 const Trending = () => {
     let {trending, getMovieInfo} = useStore()
-    // TODO: if (!trending) {return}
-    let trendingMovie = getMovieInfo(trending?.at(0) ?? -1)
+    if (trending === undefined) {
+        return
+    }
+
+    let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
     let src = `/api/image/w1280/${trendingMovie?.backdrop ?? ""}`
     let href = `/details/${trending?.at(0) ?? -1}`
 
