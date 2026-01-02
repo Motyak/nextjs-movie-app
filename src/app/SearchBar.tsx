@@ -3,7 +3,7 @@
 import { Input } from "baseui/input"
 import { Menu } from "baseui/menu"
 import { Button, SHAPE, KIND, SIZE } from "baseui/button"
-import { archivo400 } from "@/fonts"
+import { archivo400, archivo600 } from "@/fonts"
 import useStore from "@/store"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -74,10 +74,20 @@ export default function SearchBar() {
     let items = [
         {label: "hello", movieId: "123"},
         {label: "hello2", movieId: "777"},
+        {label: "hello", movieId: "123"},
+        {label: "hello2", movieId: "777"},
+        {label: "hello", movieId: "123"},
+        {label: "hello2", movieId: "777"},
+        {label: "hello", movieId: "123"},
+        {label: "hello2", movieId: "777"},
+        {label: "hello", movieId: "123"},
+        {label: "hello2", movieId: "777"},
+        {divider: true},
+        {label: "Afficher tous les résultats", end: true},
     ]
 
     return (
-        <div id="searchbar" className={"relative"}>
+        <div id="searchbar" className="relative" >
             <Input
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
@@ -95,9 +105,20 @@ export default function SearchBar() {
                         component: Cross
                     },
                     Input: {
-                        style:{
+                        style: {
                             fontFamily: `${archivo400.style.fontFamily}`,
-                            fontSize: "14px"
+                            fontSize: "14px",
+                        }
+                    },
+                    InputContainer: {
+                        style: {
+                            // background: "rgba(255, 255, 255, 0)",
+                        }
+                    },
+                    Root: {
+                        style: {
+                            // background: "rgba(255, 255, 255, 0.2)",
+                            // border: "0px",
                         }
                     }
                 }}
@@ -111,7 +132,13 @@ export default function SearchBar() {
                             ListItem: {
                                 component: (props) => {
                                     let { item } = props
-                                    return (
+                                    return item.end? (
+                                        <Link href={`/results/?q=${encodeURIComponent(searchValue)}`} onClick={()=>setSearchBarFocused(false)}>
+                                            <li className={`py-2 text-center text-black ${archivo600.className}`} style={{fontSize: "14px"}}>
+                                                {item.label}
+                                            </li>
+                                        </Link>
+                                    ) : (
                                         <Link href={`/details/${item.movieId}`} onClick={()=>setSearchBarFocused(false)}>
                                             <li className={`px-13 py-2 text-black hover:bg-gray-200 ${archivo400.className}`} style={{fontSize: "14px"}}>
                                                 {item.label}
