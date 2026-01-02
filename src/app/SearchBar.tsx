@@ -56,6 +56,12 @@ export default function SearchBar() {
         }
     }
 
+    const onChange = (e: React.ChangeEvent<any>) => {
+        setSearchValue(e.target.value)
+        // otherwise menu never re-appears after pressing ENTER
+        setSearchBarFocused(true)
+    }
+
     const onBlur = (e: React.FocusEvent<any>) => {
         // prevents suggestion links from being broken..
         // ..when we previously had focus on search bar
@@ -99,7 +105,7 @@ export default function SearchBar() {
         <div id="searchbar" className="relative" >
             <Input
                 value={searchValue}
-                onChange={e => setSearchValue(e.target.value)}
+                onChange={onChange}
                 onKeyDown={onKeyDown}
                 onFocus={e => setSearchBarFocused(true)}
                 onBlur={onBlur}

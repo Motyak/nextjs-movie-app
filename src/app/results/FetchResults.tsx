@@ -3,7 +3,9 @@
 import { archivo400, archivoBlack400 } from "@/fonts"
 import MovieCard from "@/app/MovieCard"
 import useStore from "@/store"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
+import { Spinner } from "baseui/spinner"
+import { withStyle } from "baseui"
 
 type ResultsFoundProp = {
     searchQuery: string,
@@ -29,11 +31,21 @@ const ResultGrid = ({children}: Readonly<{children: React.ReactNode}>) => {
     )
 }
 
+const CustomSpinner = withStyle(Spinner, {
+    width: "40px",
+    height: "40px",
+    borderTopColor: "white",
+    borderLeftColor: "gray",
+    borderBottomColor: "gray",
+    borderRightColor: "gray",
+})
+
 export default function FetchResults({searchQuery}: {searchQuery: string}) {
     let {
         searchResults, getSearchResult, setSearchResult,
         getMovieInfo, setMovieInfo,
     } = useStore()
+    let spinnerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (getSearchResult(searchQuery) === undefined) {
@@ -64,8 +76,42 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
             }
         })
 
-        // searchResult.fetchedResults.length
-        // searchResult.nbOfPages
+        if (!spinnerRef.current) {
+            return
+        }
+
+        /* infinite scrolling */
+        if (searchResult.fetchedResults.length < searchResult.nbOfPages) {
+            let nextPage = searchResult.fetchedResults.length + 1
+            const onVisible = (entries: any, observer: any) => {
+                entries.forEach((entry: any) => {
+                    if (entry.isIntersecting) {
+                        const storeData = async () => {
+                            await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
+                                .then(x => x.json())
+                                .then(x => {
+                                    let currSearchRes = getSearchResult(searchQuery)
+                                    if (currSearchRes === undefined) {
+                                        return
+                                    }
+                                    setSearchResult(searchQuery, {
+                                        nbOfResults: x.nbOfResults,
+                                        nbOfPages: x.nbOfPages,
+                                        fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
+                                    })
+                                })
+                        }
+                        storeData()
+                        observer.unobserve(entry.target)
+                    }
+                })
+            }
+            let observer = new IntersectionObserver(onVisible, {threshold: 0.1})
+            observer.observe(spinnerRef.current)
+        }
+        else {
+            spinnerRef.current.hidden = true
+        }
 
     }, [searchQuery, searchResults])
 
@@ -79,7 +125,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
             <div className="flex flex-col w-full 2xl:w-3/4 px-4 gap-10">
                 <ResultsFound searchQuery={searchQuery} nbOfResults={searchResult.nbOfResults} />
                 <ResultGrid>
-                    {searchResult.fetchedResults.at(-1)?.map(movieId => {
+                    {searchResult.fetchedResults.map(page => page.map(movieId => {
                         let movieInfo = getMovieInfo(movieId)
                         if (movieInfo === undefined) {
                             return
@@ -91,7 +137,10 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                             : movieInfo.runtime < 60? `${movieInfo.runtime}m`
                             : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
                         return <MovieCard key={movieId} src={src} name={name} duration={duration} id={Number(movieId)} />
-                    })}
+                    }))}
+                    <span id="spinner" className="relative" style={{width: "140px", height: "210px"}}>
+                        <CustomSpinner ref={spinnerRef} className="absolute inset-0 m-auto" />
+                    </span>
                 </ResultGrid>
             </div>
         </div>
