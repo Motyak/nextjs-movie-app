@@ -1,7 +1,6 @@
 "use client"
 
 import Slider from "react-slick"
-import "slick-carousel/slick/slick.css"
 import "@/app/HorizontalCarousel.css"
 
 const PrevArrow = (props: any) => {
@@ -39,7 +38,7 @@ export default function HorizontalCarousel({children}: Readonly<{children: React
         nextArrow: <NextArrow />,
     }
     return (
-        <div className="slider-container">
+        <div className="horizontal-carousel">
             <Slider {...settings}>
                 {children}
             </Slider>

@@ -141,6 +141,7 @@ export default function SearchBar() {
                     }
                 }}
             />
+            {/* {false? <></> : */}
             {searchValue.trim() === "" || !searchBarFocused ? <></> :
                 <div id="searchmenu" className="w-full absolute z-10">
                     <Menu

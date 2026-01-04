@@ -1,4 +1,132 @@
-.slick-slide {
+/*********************************************************
+The following is meant to REPLACE original slick.css
+*********************************************************/
+
+/* Slider */
+.horizontal-carousel .slick-slider
+{
+    position: relative;
+
+    display: block;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.horizontal-carousel .slick-list
+{
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.horizontal-carousel .slick-list:focus
+{
+    outline: none;
+}
+.horizontal-carousel .slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.horizontal-carousel .slick-slider .slick-track,
+.horizontal-carousel .slick-slider .slick-list
+{
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+         -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+}
+
+.horizontal-carousel .slick-track
+{
+    position: relative;
+    top: 0;
+    left: 0;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.horizontal-carousel .slick-track:before,
+.horizontal-carousel .slick-track:after
+{
+    display: table;
+
+    content: '';
+}
+.horizontal-carousel .slick-track:after
+{
+    clear: both;
+}
+.horizontal-carousel .slick-loading .slick-track
+{
+    visibility: hidden;
+}
+
+.horizontal-carousel .slick-slide
+{
+    display: none;
+    float: left;
+
+    height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+.horizontal-carousel .slick-slide img
+{
+    display: block;
+}
+.horizontal-carousel .slick-slide.slick-loading img
+{
+    display: none;
+}
+.horizontal-carousel .slick-slide.dragging img
+{
+    pointer-events: none;
+}
+.horizontal-carousel .slick-initialized .slick-slide
+{
+    display: block;
+}
+.horizontal-carousel .slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+.horizontal-carousel .slick-vertical .slick-slide
+{
+    display: block;
+
+    height: auto;
+
+    border: 1px solid transparent;
+}
+.horizontal-carousel .slick-arrow.slick-hidden {
+    display: none;
+}
+
+/*********************************************************
+additional
+*********************************************************/
+
+.horizontal-carousel .slick-slide {
     margin: 0 10px; /* gap between elements */
 }
 
@@ -6,8 +134,8 @@
 The following is meant to REPLACE original slick-theme.css
 *********************************************************/
 
-.slick-prev,
-.slick-next
+.horizontal-carousel .slick-prev,
+.horizontal-carousel .slick-next
 {
     cursor: pointer;
     position: absolute;
@@ -15,30 +143,30 @@ The following is meant to REPLACE original slick-theme.css
                 /* => MovieCard height / 2 - arrow height / 2 = 105 - 20 */
 }
 
-.slick-prev {
+.horizontal-carousel .slick-prev {
     left: -80px;
 }
 
-.slick-next {
+.horizontal-carousel .slick-next {
     right: -80px;
 }
 
-.slick-prev,
-.slick-next
+.horizontal-carousel .slick-prev,
+.horizontal-carousel .slick-next
 {
     opacity: .85;
 }
 
-.slick-prev:hover,
-.slick-prev:focus,
-.slick-next:hover,
-.slick-next:focus
+.horizontal-carousel .slick-prev:hover,
+.horizontal-carousel .slick-prev:focus,
+.horizontal-carousel .slick-next:hover,
+.horizontal-carousel .slick-next:focus
 {
     opacity: 1;
 }
 
-.slick-prev.slick-disabled,
-.slick-next.slick-disabled
+.horizontal-carousel .slick-prev.slick-disabled,
+.horizontal-carousel .slick-next.slick-disabled
 {
     cursor: default;
     opacity: .25;

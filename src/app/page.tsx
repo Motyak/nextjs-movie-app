@@ -9,6 +9,7 @@ import MovieInfo from "@/app/MovieInfo"
 import { Button, KIND } from "baseui/button"
 import Link from "next/link"
 import OptionalImage from "@/utils/OptionalImage"
+import VerticalCarousel from "./VerticalCarousel"
 
 // blurred hero background
 const HomeHero = () => {
@@ -41,43 +42,49 @@ const Trending = () => {
     let href = `/details/${trending.at(0) ?? -1}`
 
     return (
-        <div className="mt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
-            <OptionalImage
-                src={src}
-                alt="backdrop"
-                loading="eager" // fix warning
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-                style={{objectPosition: "center"}}
-            />
+        <div className="mt-4" style={{boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
+            <VerticalCarousel>
+                {[1, 2].map((_) => (
+                    <div className="relative rounded-lg" style={{height: "300px"}}>
+                        <OptionalImage
+                            src={src}
+                            alt="backdrop"
+                            loading="eager" // fix warning
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-lg"
+                            style={{objectPosition: "center"}}
+                        />
 
-            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
-                {/* text */}
-                {trendingMovie?.title === undefined ? <></> :
-                    <h1 className="text-4xl uppercase" >
-                        <span className={`${archivoBlack400.className}`}>{trendingMovie.title}</span>
-                        {trendingMovie.releaseYear == undefined ? <></> :
-                            <span className={`${archivo400.className}`}>{` (${trendingMovie.releaseYear})`}</span>
-                        }
-                    </h1>
-                }
+                        <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
+                            {/* text */}
+                            {trendingMovie?.title === undefined ? <></> :
+                                <h1 className="text-4xl uppercase" >
+                                    <span className={`${archivoBlack400.className}`}>{trendingMovie.title}</span>
+                                    {trendingMovie.releaseYear == undefined ? <></> :
+                                        <span className={`${archivo400.className}`}>{` (${trendingMovie.releaseYear})`}</span>
+                                    }
+                                </h1>
+                            }
 
-                {/* buttons */}
-                <div className="flex gap-2">
-                    <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
-                        <p className={`${archivo400.className}`}>Regarder</p>
-                    </Button>
-                    <div className="border border-white rounded" style={{width: "139px", height: "36px"}}>
-                        <Link href={href}>
-                            <Button colors={{backgroundColor: "#FFFFFF00", color: "#FFFFFF"}} style={{borderRadius: "4px", width: "139px", height: "33px"}}>
-                                <p className={`${archivo400.className}`}>En savoir plus</p>
-                            </Button>
-                        </Link>
+                            {/* buttons */}
+                            <div className="flex gap-2">
+                                <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
+                                    <p className={`${archivo400.className}`}>Regarder</p>
+                                </Button>
+                                <div className="border border-white rounded" style={{width: "139px", height: "36px"}}>
+                                    <Link href={href}>
+                                        <Button colors={{backgroundColor: "#FFFFFF00", color: "#FFFFFF"}} style={{borderRadius: "4px", width: "139px", height: "33px"}}>
+                                            <p className={`${archivo400.className}`}>En savoir plus</p>
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-
-            </div>
+                ))}
+            </VerticalCarousel>
         </div>
     )
 }
