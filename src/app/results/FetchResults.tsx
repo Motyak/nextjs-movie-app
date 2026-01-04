@@ -47,18 +47,24 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
         getMovieInfo, setMovieInfo,
     } = useStore()
     let spinnerRef = useRef<HTMLDivElement>(null)
+    let observerRef = useRef<IntersectionObserver>(null)
+    let fetchingLock = useRef(false)
 
     useEffect(() => {
-        let searchResult = getSearchResult(searchQuery)
-        if (searchResult === undefined) {
+         if (searchResult === undefined) {
             const storeData = async () => {
-                await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
-                    .then(x => x.json())
-                    .then(x => setSearchResult(searchQuery, {
-                        nbOfResults: x.nbOfResults,
-                        nbOfPages: x.nbOfPages,
-                        fetchedResults: [x.movieIds]
-                    }))
+                if (fetchingLock.current) {
+                    return
+                }
+                fetchingLock.current = true
+                let res = await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
+                let x = await res.json()
+                setSearchResult(searchQuery, {
+                    nbOfResults: x.nbOfResults,
+                    nbOfPages: x.nbOfPages,
+                    fetchedResults: [x.movieIds]
+                })
+                fetchingLock.current = false
             }
             storeData()
             return
@@ -69,50 +75,71 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 const storeData = async () => {
                     await fetch(`/api/details/${movieId}`)
                     .then(x => x.json())
-                    .then(movieInfo => setMovieInfo(movieId, movieInfo))
-                }
-                storeData()
+                    .then(movieInfo => setMovieInfo(movieId, movieInfo));
+                };
+                storeData();
             }
-        })
+        });
 
-        if (!spinnerRef.current) {
+        /* infinite scrolling */
+
+        if (observerRef.current) {
+            observerRef.current.disconnect()
+            observerRef.current = null
+        }
+
+        if (!spinnerRef.current || searchResult.fetchedResults.length >= searchResult.nbOfPages) {
+            if (spinnerRef.current) {
+                spinnerRef.current.hidden = true
+                return
+            }
+        }
+
+        let nextPage = searchResult.fetchedResults.length + 1
+        let currentSpinner = spinnerRef.current
+        if (!currentSpinner) {
             return
         }
 
-        /* infinite scrolling */
-        if (searchResult.fetchedResults.length < searchResult.nbOfPages) {
-            let nextPage = searchResult.fetchedResults.length + 1
-            const observerCallback = (entries: any, observer: any) => entries.forEach((entry: any) => {
-                 if (!entry.isIntersecting) {
-                    return
-                }
-                console.log("INTERSECTING, " + nextPage)
-                const storeData = async () => {
-                    await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
-                        .then(x => x.json())
-                        .then(x => {
+        const observerCallback: IntersectionObserverCallback = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !fetchingLock.current) {
+                    fetchingLock.current = true
+                    console.log("INTERSECTING, fetching page:", nextPage)
+
+                    const storeData = async () => {
+                        try {
+                            let res = await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
+                            let x = await res.json()
                             let currSearchRes = getSearchResult(searchQuery)
-                            if (currSearchRes === undefined) {
-                                return // can't happen
+                            if (currSearchRes) {
+                                setSearchResult(searchQuery, {
+                                    ...currSearchRes,
+                                    fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
+                                })
                             }
-                            setSearchResult(searchQuery, {
-                                nbOfResults: x.nbOfResults,
-                                nbOfPages: x.nbOfPages,
-                                fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
-                            })
-                        })
+                            fetchingLock.current = false
+                            observerRef.current?.disconnect()
+                        } catch (error) {
+                            console.error("Error fetching next page:", error);
+                            // Ensure unlock even on error
+                            fetchingLock.current = false
+                        }
+                    }
+                    storeData()
                 }
-                storeData()
-                observer.unobserve(entry.target)
             })
-            let observer = new IntersectionObserver(observerCallback, {threshold: 0.1})
-            observer.observe(spinnerRef.current)
-        }
-        else {
-            spinnerRef.current.hidden = true
         }
 
-    }, [searchQuery, searchResults, spinnerRef])
+        observerRef.current = new IntersectionObserver(observerCallback, { threshold: 0.1 })
+        observerRef.current.observe(currentSpinner)
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect()
+            }
+        }
+    }, [searchQuery, searchResults])
 
     let searchResult = getSearchResult(searchQuery)
     if (searchResult === undefined) {
