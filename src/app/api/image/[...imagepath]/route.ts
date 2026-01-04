@@ -1,4 +1,4 @@
-import { getBearerToken } from "@/conf/token";
+import { getBearerToken } from "@/conf/token"
 
 export async function GET(req: Request, {params}: {params: Promise<{imagepath: string[]}>}) {
     let {imagepath} = await params

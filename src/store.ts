@@ -23,13 +23,13 @@ type StoreState = {
     searchSuggestions: SearchSuggestion[]
     setSearchSuggestions: (newValue: SearchSuggestion[]) => void
 
-    trending?: number[] | undefined
+    trending?: number[]
     setTrending: (newValue: number[]) => void
 
-    nowPlaying?: number[] | undefined
+    nowPlaying?: number[]
     setNowPlaying: (newValue: number[]) => void
 
-    topRated?: number[] | undefined
+    topRated?: number[]
     setTopRated: (newValue: number[]) => void
 
     moviesInfo: {[id: number]: MovieInfo}
@@ -62,6 +62,7 @@ const useStore = create<StoreState>((set, get) => ({
 
     topRated: undefined,
     setTopRated: (newValue: number[]) => set({topRated: newValue}),
+
 
     moviesInfo: {},
     getMovieInfo: (id: number) => {

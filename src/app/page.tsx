@@ -6,9 +6,9 @@ import useStore from "@/store"
 import { archivo400, archivoBlack400, inter400 } from "@/fonts"
 import { useEffect } from "react"
 import MovieInfo from "@/app/MovieInfo"
-import Image from "next/image"
 import { Button, KIND } from "baseui/button"
 import Link from "next/link"
+import OptionalImage from "@/utils/OptionalImage"
 
 // blurred hero background
 const HomeHero = () => {
@@ -17,12 +17,13 @@ const HomeHero = () => {
         return
     }
     let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
-    let src = `/api/image/w300/${trendingMovie?.backdrop ?? ""}`
+    let backgroundCss = trendingMovie?.backdrop === undefined ? ""
+        : `url(/api/image/w300/${trendingMovie.backdrop}) center / cover`
 
     return (
         <span className="absolute inset-0 z-[-1]" style={{
             height: "600px",
-            background: `linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), url(${src}) center / cover`,
+            background: `linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), ${backgroundCss}`,
             filter: "blur(50px)",
         }}></span>
     )
@@ -35,12 +36,13 @@ const Trending = () => {
     }
 
     let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
-    let src = `/api/image/w1280/${trendingMovie?.backdrop ?? ""}`
-    let href = `/details/${trending?.at(0) ?? -1}`
+    let src = trendingMovie?.backdrop == undefined ? undefined
+        : `/api/image/w1280/${trendingMovie.backdrop}`
+    let href = `/details/${trending.at(0) ?? -1}`
 
     return (
         <div className="mt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
-            <Image
+            <OptionalImage
                 src={src}
                 alt="backdrop"
                 loading="eager" // fix warning
@@ -49,11 +51,19 @@ const Trending = () => {
                 className="rounded-lg"
                 style={{objectPosition: "center"}}
             />
+
             <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
-                <h1 className="text-4xl uppercase" >
-                    <span className={`${archivoBlack400.className}`}>{trendingMovie?.title ?? ""}</span>
-                    <span className={`${archivo400.className}`}>{" ("}{trendingMovie?.releaseYear ?? ""}{")"}</span>
-                </h1>
+                {/* text */}
+                {trendingMovie?.title === undefined ? <></> :
+                    <h1 className="text-4xl uppercase" >
+                        <span className={`${archivoBlack400.className}`}>{trendingMovie.title}</span>
+                        {trendingMovie.releaseYear == undefined ? <></> :
+                            <span className={`${archivo400.className}`}>{` (${trendingMovie.releaseYear})`}</span>
+                        }
+                    </h1>
+                }
+
+                {/* buttons */}
                 <div className="flex gap-2">
                     <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
                         <p className={`${archivo400.className}`}>Regarder</p>
@@ -66,6 +76,7 @@ const Trending = () => {
                         </Link>
                     </div>
                 </div>
+
             </div>
         </div>
     )
@@ -73,7 +84,10 @@ const Trending = () => {
 
 const NowPlaying = () => {
     let {nowPlaying, getMovieInfo} = useStore()
-    let nowPlayingTable = nowPlaying?.map(id => ({id, movieInfo: getMovieInfo(id)}))
+    if (nowPlaying === undefined) {
+        return
+    }
+    let nowPlayingTable = nowPlaying.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
         <div className="flex flex-col">
@@ -82,10 +96,10 @@ const NowPlaying = () => {
                 <HorizontalCarousel>
                     {nowPlayingTable?.map(x => {
                         let {id, movieInfo} = x
-                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w300/${movieInfo.poster}`
-                        let name = movieInfo?.title === undefined ? "" : movieInfo.title
-                        let duration = movieInfo?.runtime === undefined ? ""
-                            : movieInfo.runtime === 0 ? ""
+                        let src = movieInfo?.poster === undefined ? undefined : `/api/image/w300/${movieInfo.poster}`
+                        let name = movieInfo?.title ?? undefined
+                        let duration = movieInfo?.runtime === undefined ? undefined
+                            : movieInfo.runtime === 0 ? undefined
                             : movieInfo.runtime < 60? `${movieInfo.runtime}m`
                             : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
                         return <MovieCard src={src} name={name} duration={duration} id={id} />
@@ -98,7 +112,10 @@ const NowPlaying = () => {
 
 const TopRated = () => {
     let {topRated, getMovieInfo} = useStore()
-    let topRatedTable = topRated?.map(id => ({id, movieInfo: getMovieInfo(id)}))
+    if (topRated === undefined) {
+        return
+    }
+    let topRatedTable = topRated.map(id => ({id, movieInfo: getMovieInfo(id)}))
 
     return (
         <div className="flex flex-col">
@@ -107,9 +124,9 @@ const TopRated = () => {
                 <HorizontalCarousel>
                     {topRatedTable?.map(x => {
                         let {id, movieInfo} = x
-                        let src = movieInfo?.poster === undefined ? "" : `/api/image/w300/${movieInfo.poster}`
-                        let name = movieInfo?.title === undefined ? "" : movieInfo.title
-                        let rating = movieInfo?.rating === undefined ? 0 : movieInfo.rating
+                        let src = movieInfo?.poster === undefined ? undefined : `/api/image/w300/${movieInfo.poster}`
+                        let name = movieInfo?.title ?? undefined
+                        let rating = movieInfo?.rating === undefined ? undefined : movieInfo.rating
                         return <MovieCard src={src} name={name} rating={rating} id={id} />
                     })}
                 </HorizontalCarousel>
@@ -123,7 +140,7 @@ export default function Home() {
 
     useEffect(() => {
         if (nowPlaying !== undefined) {
-            return // nothing to do
+            return
         }
         const storeData = async () => {
             await fetch("/api/home").then(x => x.json()).then(res => {
@@ -144,7 +161,7 @@ export default function Home() {
     }, [])
 
     return (
-        <>
+        <div>
             <HomeHero />
 
             <div className="flex justify-center pt-6">
@@ -154,6 +171,6 @@ export default function Home() {
                     <TopRated />
                 </div>
             </div>
-        </>
+        </div>
     )
 }

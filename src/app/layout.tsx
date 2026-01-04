@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 
-import RootStyletron from "./RootStyletron"
+import RootStyletron from "~/lib/RootStyletron"
 import Logo from "./Logo"
 import SearchBar from "./SearchBar"
 
@@ -18,7 +18,7 @@ const TopBar = () => {
 
 export const metadata: Metadata = {
     title: "Movienight",
-    description: "Movienight is a database for movies.",
+    description: "Movienight est une base de données de films.",
 }
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {

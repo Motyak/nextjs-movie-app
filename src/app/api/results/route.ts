@@ -1,4 +1,4 @@
-import { getBearerToken } from "@/conf/token";
+import { getBearerToken } from "@/conf/token"
 
 export async function GET(_req: Request) {
     let searchParams = new URL(_req.url).searchParams

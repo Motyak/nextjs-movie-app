@@ -1,4 +1,4 @@
-import { getBearerToken } from "@/conf/token";
+import { getBearerToken } from "@/conf/token"
 import MovieInfo from "@/app/MovieInfo";
 import getDetails from "@/app/api/getDetails";
 
@@ -43,30 +43,6 @@ export async function GET(req: Request) {
         })
     }
 
-    /* top rated movies */
-    {
-        let url = "https://api.themoviedb.org/3/discover/movie"
-            + "?language=fr"
-            + "&region=FR"
-            + "&sort_by=vote_average.desc"
-            + "&vote_count.gte=5000"
-
-        let req = fetch(url, {
-            headers: {
-                "Authorization": `Bearer ${getBearerToken()}`,
-            },
-        })
-
-        topRated = req.then(res => res.json()).then(obj => {
-            let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
-            return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
-                let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
-                movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
-                return moviesInfo
-            })
-        })
-    }
-
     /* now playing movies */
     {
         let [dateFrom, dateTo] = getWeekExtremum()
@@ -85,6 +61,30 @@ export async function GET(req: Request) {
         })
         
         nowPlaying = req.then(res => res.json()).then(obj => {
+            let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
+            return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
+                let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []
+                movieIds.forEach((id, index) => moviesInfo.push({movieId: id, movieInfo: movieInfos[index]}))
+                return moviesInfo
+            })
+        })
+    }
+
+    /* top rated movies */
+    {
+        let url = "https://api.themoviedb.org/3/discover/movie"
+            + "?language=fr"
+            + "&region=FR"
+            + "&sort_by=vote_average.desc"
+            + "&vote_count.gte=5000"
+
+        let req = fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${getBearerToken()}`,
+            },
+        })
+
+        topRated = req.then(res => res.json()).then(obj => {
             let movieIds: number[] = obj.results.slice(0, 10).map((x: {id: number}) => x.id)
             return Promise.all(movieIds.map(getDetails)).then(movieInfos => {
                 let moviesInfo: {movieId: number, movieInfo: MovieInfo}[] = []

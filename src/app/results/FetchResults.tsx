@@ -3,7 +3,7 @@
 import { archivo400, archivoBlack400 } from "@/fonts"
 import MovieCard from "@/app/MovieCard"
 import useStore from "@/store"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Spinner } from "baseui/spinner"
 import { withStyle } from "baseui"
 
@@ -13,7 +13,8 @@ type ResultsFoundProp = {
 }
 
 const ResultsFound = ({searchQuery, nbOfResults}: ResultsFoundProp) => {
-    let displayNbOfResults = `${nbOfResults} résultat` + (nbOfResults < 2? "" : "s")
+    let displayNbOfResults = nbOfResults < 2 ? `${nbOfResults} résultat`
+        : `${nbOfResults} résultats`
     
     return (
         <h1 className="flex flex-col">
@@ -48,7 +49,8 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
     let spinnerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (getSearchResult(searchQuery) === undefined) {
+        let searchResult = getSearchResult(searchQuery)
+        if (searchResult === undefined) {
             const storeData = async () => {
                 await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
                     .then(x => x.json())
@@ -61,16 +63,13 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
             storeData()
             return
         }
-        let searchResult = getSearchResult(searchQuery)
-        if (searchResult === undefined) {
-            return
-        }
+
         searchResult.fetchedResults.at(-1)?.map((movieId) => {
             if (getMovieInfo(movieId) === undefined) {
                 const storeData = async () => {
                     await fetch(`/api/details/${movieId}`)
-                        .then(x => x.json())
-                        .then(movieInfo => setMovieInfo(movieId, movieInfo))
+                    .then(x => x.json())
+                    .then(movieInfo => setMovieInfo(movieId, movieInfo))
                 }
                 storeData()
             }
@@ -83,37 +82,37 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
         /* infinite scrolling */
         if (searchResult.fetchedResults.length < searchResult.nbOfPages) {
             let nextPage = searchResult.fetchedResults.length + 1
-            const onVisible = (entries: any, observer: any) => {
-                entries.forEach((entry: any) => {
-                    if (entry.isIntersecting) {
-                        const storeData = async () => {
-                            await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
-                                .then(x => x.json())
-                                .then(x => {
-                                    let currSearchRes = getSearchResult(searchQuery)
-                                    if (currSearchRes === undefined) {
-                                        return
-                                    }
-                                    setSearchResult(searchQuery, {
-                                        nbOfResults: x.nbOfResults,
-                                        nbOfPages: x.nbOfPages,
-                                        fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
-                                    })
-                                })
-                        }
-                        storeData()
-                        observer.unobserve(entry.target)
-                    }
-                })
-            }
-            let observer = new IntersectionObserver(onVisible, {threshold: 0.1})
+            const observerCallback = (entries: any, observer: any) => entries.forEach((entry: any) => {
+                 if (!entry.isIntersecting) {
+                    return
+                }
+                console.log("INTERSECTING, " + nextPage)
+                const storeData = async () => {
+                    await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
+                        .then(x => x.json())
+                        .then(x => {
+                            let currSearchRes = getSearchResult(searchQuery)
+                            if (currSearchRes === undefined) {
+                                return // can't happen
+                            }
+                            setSearchResult(searchQuery, {
+                                nbOfResults: x.nbOfResults,
+                                nbOfPages: x.nbOfPages,
+                                fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
+                            })
+                        })
+                }
+                storeData()
+                observer.unobserve(entry.target)
+            })
+            let observer = new IntersectionObserver(observerCallback, {threshold: 0.1})
             observer.observe(spinnerRef.current)
         }
         else {
             spinnerRef.current.hidden = true
         }
 
-    }, [searchQuery, searchResults])
+    }, [searchQuery, searchResults, spinnerRef])
 
     let searchResult = getSearchResult(searchQuery)
     if (searchResult === undefined) {
@@ -131,12 +130,12 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                             return
                         }
 
-                        let src = `/api/image/w300/${movieInfo.poster}`
-                        let name = movieInfo.title
-                        let duration = movieInfo.runtime === 0 ? ""
+                        let src = movieInfo.poster === undefined ? undefined : `/api/image/w300/${movieInfo.poster}`
+                        let duration = movieInfo.runtime === undefined ? undefined
+                            : movieInfo.runtime === 0 ? undefined
                             : movieInfo.runtime < 60? `${movieInfo.runtime}m`
                             : `${Math.floor(movieInfo.runtime / 60)}h` + `${movieInfo.runtime % 60}`.padStart(2, "0")
-                        return <MovieCard key={movieId} src={src} name={name} duration={duration} id={Number(movieId)} />
+                        return <MovieCard key={movieId} src={src} name={movieInfo.title} duration={duration} id={Number(movieId)} />
                     }))}
                     <span id="spinner" className="relative" style={{width: "140px", height: "210px"}}>
                         <CustomSpinner ref={spinnerRef} className="absolute inset-0 m-auto" />

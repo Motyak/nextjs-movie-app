@@ -7,13 +7,17 @@ import Image from "next/image"
 export default function DetailsCasting({movie_id}: {movie_id: number}) {
     let {getMovieInfo} = useStore()
     let movieInfo = getMovieInfo(movie_id)
+    if (movieInfo === undefined) {
+        return
+    }
 
     return (
+        movieInfo.casting === undefined ? <></> :
         <div>
             <h2 className={`${inter400.className} text-xl`}>Casting</h2>
             <div className="flex flex-wrap gap-7 pt-4">
-                {movieInfo?.casting.filter(cast => cast.photo !== null).map(cast => (
-                    <div key={cast.name} style={{width: "160px"}}>
+                {movieInfo.casting.filter(cast => cast.photo).map(cast => (
+                    <div key={cast.photo} style={{width: "160px"}}>
                         <div className="relative" style={{height: "160px"}}>
                             <Image
                                 src={`/api/image/w300/${cast.photo}`}

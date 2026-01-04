@@ -7,7 +7,7 @@ export default async function Details({params}: {params: Promise<{movie_id: numb
     let movie_id = (await params).movie_id
 
     return (
-        <>
+        <div>
             {/* blurred hero background */}
             <DetailsHero movie_id={movie_id} />
 
@@ -18,6 +18,6 @@ export default async function Details({params}: {params: Promise<{movie_id: numb
                     <DetailsCasting movie_id={movie_id} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
