@@ -7,7 +7,7 @@ import { archivo400, archivo600 } from "@/fonts"
 import useStore from "@/store"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const Magnifier = () => {
     let {searchValue, setSearchBarFocused} = useStore()
@@ -47,6 +47,7 @@ export default function SearchBar() {
         searchBarFocused, setSearchBarFocused,
         searchSuggestions, setSearchSuggestions,
     } = useStore()
+    let [isMounted, setIsMounted] = useState(false)
     let href = searchValue == "" ? "/" : `/results?q=${encodeURIComponent(searchValue.trim())}`
 
     const onKeyDown = (e: any) => {
@@ -84,6 +85,8 @@ export default function SearchBar() {
     }
 
     useEffect(() => {
+        setIsMounted(true)
+
         if (!searchValue.trim()) {
             return
         }
@@ -101,7 +104,7 @@ export default function SearchBar() {
         return () => clearTimeout(debounce)
     }, [searchValue])
 
-    return (
+    return !isMounted ? <></> : (
         <div id="searchbar" className="relative" >
             <Input
                 value={searchValue}
