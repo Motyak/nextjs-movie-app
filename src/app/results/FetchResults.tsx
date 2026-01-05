@@ -87,7 +87,6 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                  if (!entry.isIntersecting) {
                     return
                 }
-                console.log("INTERSECTING, " + nextPage)
                 const storeData = async () => {
                     await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
                         .then(x => x.json())

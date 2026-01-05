@@ -18,6 +18,8 @@ const movieCreditsRequest = async (personId: number, page: number) => {
         let nbOfResults = obj[type].length
         let nbOfPages = Math.ceil(obj[type].length / 20)
         let movieIds = obj[type]
+            // remove duplicates (a crew person can have different jobs on a same movie)
+            .filter((item: any, index: any, self: any) => index === self.findIndex((t: any) => t.id === item.id))
             .slice((page - 1) * 20, page * 20)
             .map((x: {id: number}) => x.id)
         return {personId, nbOfResults, nbOfPages, movieIds}

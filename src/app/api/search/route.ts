@@ -71,7 +71,10 @@ export async function GET(_req: Request) {
 
         let response = await req.then(res => res.json()).then(obj => {
             let type = obj.cast.length >= obj.crew.length ? "cast" : "crew"
-            let movieIds: number[] = obj[type].slice(0, 10)
+            let movieIds: number[] = obj[type]
+                // remove duplicates (a crew person can have different jobs on a same movie)
+                .filter((item: any, index: any, self: any) => index === self.findIndex((t: any) => t.id === item.id))
+                .slice(0, 10)
                 .map((x: any) => {
                     let releaseYear = parseReleaseYear(x.release_date)
                     let movie = releaseYear === undefined ? x.title : `${x.title} (${releaseYear})`
