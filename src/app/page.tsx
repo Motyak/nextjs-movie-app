@@ -12,11 +12,11 @@ import OptionalImage from "@/utils/OptionalImage"
 
 // blurred hero background
 const HomeHero = () => {
-    let {trending, getMovieInfo} = useStore()
+    let {trending, getMovieInfo, currentTrending} = useStore()
     if (trending === undefined) {
         return
     }
-    let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
+    let trendingMovie = getMovieInfo(trending.at(currentTrending) ?? -1)
     let backgroundCss = trendingMovie?.backdrop === undefined ? ""
         : `url(/api/image/w300/${trendingMovie.backdrop}) center / cover`
 
@@ -30,53 +30,68 @@ const HomeHero = () => {
 }
 
 const Trending = () => {
-    let {trending, getMovieInfo} = useStore()
+    let {trending, getMovieInfo, currentTrending, setCurrentTrending} = useStore()
+
     if (trending === undefined) {
         return
     }
 
-    let trendingMovie = getMovieInfo(trending.at(0) ?? -1)
+    let trendingMovie = getMovieInfo(trending.at(currentTrending) ?? -1)
     let src = trendingMovie?.backdrop == undefined ? undefined
         : `/api/image/w1280/${trendingMovie.backdrop}`
-    let href = `/details/${trending.at(0) ?? -1}`
+    let href = `/details/${trending.at(currentTrending) ?? -1}`
 
     return (
-        <div className="mt-4 relative rounded-lg" style={{height: "300px", boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
-            <OptionalImage
-                src={src}
-                alt="backdrop"
-                loading="eager" // fix warning
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-                style={{objectPosition: "center"}}
-            />
+        <div className="mt-4 relative" style={{height: "300px"}}>
+            <div className="h-full relative rounded-lg" style={{boxShadow: "0px 0px 48px rgba(0, 0, 0, 1)"}}>
+                <OptionalImage
+                    src={src}
+                    alt="backdrop"
+                    loading="eager" // fix warning
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-lg"
+                    style={{objectPosition: "center"}}
+                />
 
-            <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
-                {/* text */}
-                {trendingMovie?.title === undefined ? <></> :
-                    <h1 className="text-4xl uppercase" >
-                        <span className={`${archivoBlack400.className}`}>{trendingMovie.title}</span>
-                        {trendingMovie.releaseYear == undefined ? <></> :
-                            <span className={`${archivo400.className}`}>{` (${trendingMovie.releaseYear})`}</span>
-                        }
-                    </h1>
-                }
+                <div className="flex flex-col gap-3 absolute bottom-0 left-0 pl-4 mb-6 shadowOverlay">
+                    {/* text */}
+                    {trendingMovie?.title === undefined ? <></> :
+                        <h1 className="text-4xl uppercase" >
+                            <span className={`${archivoBlack400.className}`}>{trendingMovie.title}</span>
+                            {trendingMovie.releaseYear == undefined ? <></> :
+                                <span className={`${archivo400.className}`}>{` (${trendingMovie.releaseYear})`}</span>
+                            }
+                        </h1>
+                    }
 
-                {/* buttons */}
-                <div className="flex gap-2">
-                    <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
-                        <p className={`${archivo400.className}`}>Regarder</p>
-                    </Button>
-                    <div className="border border-white rounded" style={{width: "139px", height: "36px"}}>
-                        <Link href={href}>
-                            <Button colors={{backgroundColor: "#FFFFFF00", color: "#FFFFFF"}} style={{borderRadius: "4px", width: "139px", height: "33px"}}>
-                                <p className={`${archivo400.className}`}>En savoir plus</p>
-                            </Button>
-                        </Link>
+                    {/* buttons */}
+                    <div className="flex gap-2">
+                        <Button kind={KIND.secondary} style={{borderRadius: "4px", width: "107px", height: "36px"}} >
+                            <p className={`${archivo400.className}`}>Regarder</p>
+                        </Button>
+                        <div className="border border-white rounded" style={{width: "139px", height: "36px"}}>
+                            <Link href={href}>
+                                <Button colors={{backgroundColor: "#FFFFFF00", color: "#FFFFFF"}} style={{borderRadius: "4px", width: "139px", height: "33px"}}>
+                                    <p className={`${archivo400.className}`}>En savoir plus</p>
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
-                </div>
 
+                </div>
+            </div>
+            <div className="h-full absolute top-0 -right-10 flex justify-center items-center">
+                <ul className="flex flex-col" style={{marginBottom: "6px", gap: "14px"}}>
+                    {[0, 1, 2].map(index => {
+                        let h = index === currentTrending ? "h-[60px]" : "h-[12px]"
+                        return <li key={index} onClick={()=>setCurrentTrending(index)} className={`
+                            bg-white rounded-full cursor-pointer
+                            w-[12px] ${h}
+                            transition-all duration-300 ease-in-out
+                        `}></li>
+                    })}
+                </ul>
             </div>
         </div>
     )

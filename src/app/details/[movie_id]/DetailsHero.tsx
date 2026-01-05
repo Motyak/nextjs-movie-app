@@ -9,7 +9,7 @@ export default function DetailsHero({movie_id}: {movie_id: number}) {
         return
     }
     let backgroundCss = movieInfo.poster === undefined ? ""
-        : `url(/api/image/w500/${movieInfo.backdrop}) center / cover`
+        : `url(/api/image/w500/${movieInfo.poster}) center / cover`
 
     return (
         <span className="absolute inset-0 z-[-1]" style={{

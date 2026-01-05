@@ -23,6 +23,9 @@ type StoreState = {
     searchSuggestions: SearchSuggestion[]
     setSearchSuggestions: (newValue: SearchSuggestion[]) => void
 
+    currentTrending: number // 0, 1, ..
+    setCurrentTrending: (newValue: number) => void
+
     trending?: number[]
     setTrending: (newValue: number[]) => void
 
@@ -53,6 +56,9 @@ const useStore = create<StoreState>((set, get) => ({
 
     searchSuggestions: [],
     setSearchSuggestions: (newValue: SearchSuggestion[]) => set({searchSuggestions: newValue}),
+
+    currentTrending: 0,
+    setCurrentTrending: (newValue: number) => set({currentTrending: newValue}),
 
     trending: undefined,
     setTrending: (newValue: number[]) => set({trending: newValue}),
