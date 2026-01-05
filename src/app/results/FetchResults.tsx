@@ -55,6 +55,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
                     .then(x => x.json())
                     .then(x => setSearchResult(searchQuery, {
+                        personId: x.personId,
                         nbOfResults: x.nbOfResults,
                         nbOfPages: x.nbOfPages,
                         fetchedResults: [x.movieIds]
@@ -96,6 +97,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                                 return // can't happen
                             }
                             setSearchResult(searchQuery, {
+                                personId: x.personId,
                                 nbOfResults: x.nbOfResults,
                                 nbOfPages: x.nbOfPages,
                                 fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]
@@ -124,7 +126,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
             <div className="flex flex-col w-full 2xl:w-3/4 px-4 gap-10">
                 <ResultsFound searchQuery={searchQuery} nbOfResults={searchResult.nbOfResults} />
                 <ResultGrid>
-                    {searchResult.fetchedResults.map(page => page.map(movieId => {
+                    {searchResult.fetchedResults.map(page => page?.map(movieId => {
                         let movieInfo = getMovieInfo(movieId)
                         if (movieInfo === undefined) {
                             return

@@ -35,13 +35,13 @@ const getDetails = (movieId: number): Promise<MovieInfo> => {
 
             backdrop: detailsObj.backdrop_path?.slice(1),
             poster: detailsObj.poster_path?.slice(1),
-            videos: detailsObj.videos.results
+            videos: detailsObj.videos?.results
                 .filter((x: any) => x.site == "YouTube")
                 .map((x: any) => x.key)
                 .filter((x: any) => x !== null),
 
-            crew: detailsObj.credits.crew?.slice(0, 4).map((x: any) => ({name: x.name, job: x.job})),
-            casting: detailsObj.credits.cast?.slice(0, 20).map((x: any) => ({
+            crew: detailsObj.credits?.crew?.slice(0, 4).map((x: any) => ({name: x.name, job: x.job})),
+            casting: detailsObj.credits?.cast?.slice(0, 20).map((x: any) => ({
                 name: x.name,
                 character: x.character,
                 photo: x.profile_path?.slice(1)

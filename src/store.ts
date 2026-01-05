@@ -8,6 +8,7 @@ export type SearchSuggestion = {
 }
 
 export type SearchResult = {
+    personId?: number
     nbOfResults: number
     nbOfPages: number
     fetchedResults: number[][] // pages of movie ids
@@ -80,7 +81,7 @@ const useStore = create<StoreState>((set, get) => ({
     })),
 
     searchResults: {
-        "": {nbOfResults: 0, nbOfPages: 1, fetchedResults: []} // cache empty search query
+        "": {nbOfResults: 0, nbOfPages: 1, fetchedResults: [], searchType: "movie"} // cache empty search query
     },
     getSearchResult: (searchQuery: string) => {
         const state = get()

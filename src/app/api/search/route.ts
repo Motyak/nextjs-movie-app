@@ -53,13 +53,14 @@ export async function GET(_req: Request) {
     }
 
     return await searchMulti.then(async obj => {
-        if (obj.results.length === 0 || obj.results[0].media_type !== "person") {
+        let results = obj.results.filter((x: any) => x.media_type == "person" || x.media_type == "movie")
+        if (results.length === 0 || results[0].media_type !== "person") {
             let response = await searchMovies
             return new Response(JSON.stringify(response))
         }
         
         /* /movie_credits request */
-        let personId = obj.results[0].id
+        let personId = results[0].id
         let url = `https://api.themoviedb.org/3/person/${personId}/movie_credits?language=fr`
 
         let req = fetch(url, {
@@ -69,7 +70,8 @@ export async function GET(_req: Request) {
         })
 
         let response = await req.then(res => res.json()).then(obj => {
-            let movieIds: number[] = obj.cast.slice(0, 10)
+            let type = obj.cast.length >= obj.crew.length ? "cast" : "crew"
+            let movieIds: number[] = obj[type].slice(0, 10)
                 .map((x: any) => {
                     let releaseYear = parseReleaseYear(x.release_date)
                     let movie = releaseYear === undefined ? x.title : `${x.title} (${releaseYear})`
