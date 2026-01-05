@@ -21,11 +21,24 @@ const HomeHero = () => {
         : `url(/api/image/w300/${trendingMovie.backdrop}) center / cover`
 
     return (
-        <span className="absolute inset-0 z-[-1]" style={{
-            height: "600px",
-            background: `linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), ${backgroundCss}`,
-            filter: "blur(50px)",
-        }}></span>
+        <div className="absolute inset-0 z-[-1]" style={{
+                height: "600px",
+                background: `linear-gradient(rgba(42, 42, 42, 0) 39.63%, #2A2A2A 100%), ${backgroundCss}`,
+                filter: "blur(50px)"}}>
+
+            {/* preloading the other backgrounds */}
+            <div className="absolute top-[-9999px] left-[-9999px] opacity-0">
+                {trending.slice(1).map(getMovieInfo).filter(movie => movie?.backdrop).map(movie => {
+                    return (
+                        <span
+                            key={movie?.backdrop}
+                            style={{background: `url(/api/image/w300/${movie?.backdrop})`}}>
+                        </span>
+                    )
+                })}
+            </div>
+
+        </div>
     )
 }
 
