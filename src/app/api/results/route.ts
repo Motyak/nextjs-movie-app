@@ -79,7 +79,7 @@ export async function GET(_req: Request) {
     }
 
     return await searchMulti.then(async obj => {
-        let results = obj.results.filter((x: any) => x.media_type == "person" || x.media_type == "movie")
+        let results = obj.results.filter((x: any) => (x.media_type == "person" && x.popularity >= 0.1) || x.media_type == "movie")
         if (results.length === 0 || results[0].media_type !== "person") {
             let response = await searchMovies
             return new Response(JSON.stringify(response))
