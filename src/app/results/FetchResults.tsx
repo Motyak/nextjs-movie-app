@@ -55,7 +55,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                 await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=1`)
                     .then(x => x.json())
                     .then(x => setSearchResult(searchQuery, {
-                        personId: x.personId,
+                        personId: x.personId ?? -1,
                         nbOfResults: x.nbOfResults,
                         nbOfPages: x.nbOfPages,
                         fetchedResults: [x.movieIds]
@@ -88,7 +88,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                     return
                 }
                 const storeData = async () => {
-                    await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}&page=${nextPage}`)
+                    await fetch(`/api/results?q=${encodeURIComponent(searchQuery)}${searchResult.personId === undefined ? "" : `&person_id=${searchResult.personId}`}&page=${nextPage}`)
                         .then(x => x.json())
                         .then(x => {
                             let currSearchRes = getSearchResult(searchQuery)
@@ -96,7 +96,7 @@ export default function FetchResults({searchQuery}: {searchQuery: string}) {
                                 return // can't happen
                             }
                             setSearchResult(searchQuery, {
-                                personId: x.personId,
+                                personId: x.personId ?? -1,
                                 nbOfResults: x.nbOfResults,
                                 nbOfPages: x.nbOfPages,
                                 fetchedResults: [...currSearchRes.fetchedResults, x.movieIds]

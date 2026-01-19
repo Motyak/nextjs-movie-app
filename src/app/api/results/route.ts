@@ -31,10 +31,10 @@ const movieCreditsRequest = async (personId: number, page: number) => {
 export async function GET(_req: Request) {
     let searchParams = new URL(_req.url).searchParams
     let query = searchParams.get("q") ?? ""
-    let page = Number(searchParams.get("page")) ?? 1
-    let personId = searchParams.get("person_id") ?? undefined
+    let page = Number(searchParams.get("page") ?? 1)
+    let personId = searchParams.get("person_id") || undefined
 
-    if (personId !== undefined) {
+    if (personId !== undefined && personId !== "-1") {
         let response = await movieCreditsRequest(Number(personId), Number(page))
         return new Response(JSON.stringify(response))
     }
@@ -48,6 +48,7 @@ export async function GET(_req: Request) {
             + `?query=${encodeURIComponent(query)}`
             + "&language=fr"
             + "&region=FR"
+            + `&page=${page}`
 
         let req = fetch(url, {
             headers: {
@@ -61,6 +62,11 @@ export async function GET(_req: Request) {
             let movieIds = obj.results.map((x: {id: number}) => x.id)
             return {nbOfResults, nbOfPages, movieIds}
         })
+    }
+
+    if (personId === "-1") {
+        let response = await searchMovies
+        return new Response(JSON.stringify(response))
     }
 
     /* /multi query */
